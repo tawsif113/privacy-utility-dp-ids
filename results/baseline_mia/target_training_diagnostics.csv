@@ -1,0 +1,2 @@
+seed,n_iter,max_iter,reached_max_iter,final_loss
+42,30,30,True,0.008795744018153577
