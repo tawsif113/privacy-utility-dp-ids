@@ -11,6 +11,11 @@ Canonical notebook names:
 08_privacy_utility_frontier.ipynb
 ```
 
-The accepted combined Experiment 02–03 notebook should be copied from the final Colab version that produced `manifests/baseline_mia_combined_manifest.json`.
+Completed and frozen:
+
+- `01_baseline_nsl_kdd_ids.ipynb`
+- `02_03_mia_ready_baseline_and_audit.ipynb`
+
+Future notebooks should be added only when the corresponding experiment is actually created.
 
 Do not use filename suffixes such as `clean`, `v2`, `(1)`, or `final_final` in the repository. Version history belongs in Git commits.
