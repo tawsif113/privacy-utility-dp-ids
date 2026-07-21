@@ -1,0 +1,39 @@
+# Datasets
+KDDTrain+.txt
+KDDTest+.txt
+data/raw/
+datasets/
+
+# Large generated artifacts
+*.joblib
+*.pkl
+*.pt
+*.pth
+*.npy
+*.npz
+
+# Large per-sample/intermediate outputs
+**/shadow_attack_data.csv
+**/target_mia_evaluation.csv
+**/member_nonmember_distribution.csv
+**/*per_sample_scores.csv
+
+# Notebook and Python cache
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# Secrets and local configuration
+.env
+*.key
+credentials.json
+secrets.json
+
+# OS/editor files
+.DS_Store
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
