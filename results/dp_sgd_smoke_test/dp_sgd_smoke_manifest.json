@@ -1,0 +1,80 @@
+{
+  "protocol_version": "ROADMAP_REVISED_V2",
+  "experiment": "04_dp_sgd_feasibility_smoke_test",
+  "seed": 42,
+  "device": "cuda",
+  "architecture": {
+    "input_dim": 122,
+    "hidden_dims": [
+      64,
+      32
+    ],
+    "activation": "ReLU",
+    "output": "one logit",
+    "batch_norm": false
+  },
+  "training": {
+    "optimizer": "Adam",
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "non_private_epochs": 30,
+    "dp_epochs": 5,
+    "loss": "BCEWithLogitsLoss"
+  },
+  "dp": {
+    "target_epsilon": 8.0,
+    "actual_epsilon": 7.998628515798507,
+    "delta": 1.134031140495118e-05,
+    "noise_multiplier": 0.469818115234375,
+    "max_grad_norm": 1.0,
+    "sample_rate": 0.002898550724637681,
+    "accountant": "prv",
+    "secure_mode": false,
+    "poisson_sampling": true,
+    "clipping": "flat"
+  },
+  "parity": {
+    "passed": true,
+    "tolerances": {
+      "f1": 0.04,
+      "recall": 0.05,
+      "fnr": 0.05,
+      "pr_auc": 0.04
+    }
+  },
+  "created_at_unix": 1784702001.7134838,
+  "dataset": {
+    "train_file": "/content/drive/MyDrive/ML-DP-NID/KDDTrain+.txt",
+    "test_file": "/content/drive/MyDrive/ML-DP-NID/KDDTest+.txt",
+    "train_sha256": "1b86d2f957b33082081bba410fe129b475efebcc13c9014c3f447c8271aadf95",
+    "test_sha256": "fa46b0935342616aa83b7c2578db355b6a7aaabbc492248172c7a1e8b7ab8f84"
+  },
+  "split": {
+    "target_train_rows": 88181,
+    "target_validation_rows": 12597,
+    "shadow_pool_rows": 25195
+  },
+  "fixed_preprocessing": {
+    "path": "/content/drive/MyDrive/ML-DP-NID/artifacts/preprocessor/target_mlp_preprocessor.joblib",
+    "scope": "Privacy accounting is conditional on this fixed preprocessing."
+  },
+  "accepted_baseline": {
+    "manifest_path": "/content/drive/MyDrive/ML-DP-NID/artifacts/manifests/baseline_mia_combined_manifest.json",
+    "results_path": "/content/drive/MyDrive/ML-DP-NID/results/baseline_mia_combined/target_ids_results.csv"
+  },
+  "runtime": {
+    "python": "3.12.13 (main, Mar  4 2026, 09:23:07) [GCC 11.4.0]",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "numpy": "2.0.2",
+    "pandas": "2.2.2",
+    "sklearn": "1.6.1",
+    "torch": "2.11.0+cu128",
+    "opacus": "1.6.0"
+  },
+  "outputs": {
+    "parity_csv": "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd_smoke_test/non_private_pytorch_parity.csv",
+    "private_smoke_csv": "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd_smoke_test/private_smoke_test.csv",
+    "warnings_csv": "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd_smoke_test/opacus_warnings.csv"
+  }
+}
