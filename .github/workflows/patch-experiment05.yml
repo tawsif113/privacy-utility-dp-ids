@@ -1,5 +1,6 @@
 name: Patch Experiment 05 notebook
 
+# One-time correction workflow for the Experiment 05 DP-shadow protocol.
 on:
   push:
     paths:
