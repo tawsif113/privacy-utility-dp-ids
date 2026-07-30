@@ -28,17 +28,30 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Normalize patch script formatting
+      - name: Normalize notebook and patch formatting
         run: |
           python - <<'PY'
+          import json
           from pathlib import Path
-          path = Path("scripts/patch_experiment05.py")
-          text = path.read_text(encoding="utf-8")
-          text = text.replace(
+
+          script_path = Path("scripts/patch_experiment05.py")
+          script = script_path.read_text(encoding="utf-8")
+          script = script.replace(
               "\n\n\ndef shadow_config_path",
               "\n\ndef shadow_config_path",
           )
-          path.write_text(text, encoding="utf-8")
+          script_path.write_text(script, encoding="utf-8")
+
+          notebook_path = Path("notebooks/05_dp_sgd_privacy_utility_sweep.ipynb")
+          notebook = json.loads(notebook_path.read_text(encoding="utf-8"))
+          for cell in notebook["cells"]:
+              source = cell.get("source")
+              if isinstance(source, list) and source and not source[-1].endswith("\n"):
+                  source[-1] += "\n"
+          notebook_path.write_text(
+              json.dumps(notebook, indent=1, ensure_ascii=False),
+              encoding="utf-8",
+          )
           PY
 
       - name: Replace notebook with corrected revision
