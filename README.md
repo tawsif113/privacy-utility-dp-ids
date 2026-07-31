@@ -1,47 +1,135 @@
-# Privacy–Utility Tradeoff in Differentially Private Machine Learning for Network Intrusion Detection
+# Privacy–Utility Auditing of DP-SGD for ML-Based Network Intrusion Detection
 
-This repository contains a reproducible research pipeline for evaluating intrusion-detection utility and training-membership leakage before and after formal DP-SGD.
+A reproducible empirical study of how formally accounted DP-SGD affects intrusion-detection utility and measurable training-membership leakage in an MLP trained on NSL-KDD.
 
-## Current scope
+## Research question
 
-- Dataset: NSL-KDD
-- Task: Binary classification, Normal vs Attack
-- Main model: MLP
-- Privacy audit: Shadow-calibrated membership inference
-- Formal private training: DP-SGD with Opacus
-- Core IDS metrics: Recall, FNR, F1, PR-AUC
-- Core privacy metrics: MIA ROC-AUC, advantage, balanced accuracy, TPR at 1% and 5% FPR
+How does formally accounted DP-SGD affect IDS utility—particularly Recall and False Negative Rate (FNR)—and membership-inference risk under score-only and label-aware attacks?
 
-## Current status
+## Current stage
 
-- Baseline IDS comparison: complete and archived
-- Locked 70/10/20 MIA-ready split: complete
-- Final five-shadow baseline MIA audit: complete
-- Overall measurable baseline leakage under the evaluated attacks: weak
-- Next experiment: PyTorch and Opacus DP-SGD feasibility smoke test
+Experiments 01–04 are complete. The Experiment 05 notebook for the formal privacy-budget sweep and condition-matched MIA evaluation is implemented and has been corrected so each DP shadow model targets the same requested epsilon and fixed delta as its corresponding target condition. Experiment 05 result CSVs and manifests are not yet committed, so the sweep is still **in progress**.
+
+| Phase | Artifact | Status |
+|---|---|---|
+| Baseline IDS comparison | Experiment 01 | Complete and archived |
+| Locked MIA-ready MLP and baseline audit | Experiments 02–03 | Complete and accepted |
+| PyTorch parity and DP-SGD feasibility | Experiment 04 | Complete and accepted |
+| Privacy-budget sweep and per-model MIA | Experiment 05 | Code ready; execution evidence pending |
+| Repeated-run stability analysis | Experiment 06 | Pending |
+| Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
+| Final privacy–utility analysis | Experiment 08 | Pending |
+
+## Verified evidence
+
+| Evidence | Verified result | Interpretation |
+|---|---:|---|
+| Strongest evaluated baseline MIA ROC-AUC | approximately 0.5029 | Overall leakage is near chance under the evaluated attacks; the 95% CI spans chance |
+| DP feasibility epsilon | 7.9986 | One formally accounted smoke-test configuration |
+| DP feasibility delta | 1.134 × 10^-5 | Explicitly recorded privacy parameter |
+| DP smoke-test Recall | 66.20% | Single-run feasibility utility |
+| DP smoke-test FNR | 33.80% | Single-run feasibility utility |
+| DP smoke-test F1 | 76.80% | Single-run feasibility utility |
+| DP smoke-test PR-AUC | 91.93% | Single-run feasibility utility |
+
+The DP values above are from a five-epoch feasibility run at a validation-selected threshold. They do **not** establish a privacy–utility frontier, identify an optimal epsilon, or demonstrate that DP-SGD reduced membership leakage.
+
+## Experimental protocol
+
+- **Dataset:** NSL-KDD
+- **Task:** Binary classification, Normal vs Attack
+- **Target model:** MLP
+- **Locked development split:** 70% target-train, 10% target-validation, 20% shadow-pool
+- **External IDS evaluation:** KDDTest+ only
+- **Threshold policy:** Select the F2 operating threshold on target-validation only
+- **MIA protocol:** Five shadow models with score-only and label-aware attacks
+- **Attack calibration:** Shadow outputs only; no target-score tuning
+- **Uncertainty:** 1,000 bootstrap repetitions for the accepted baseline audit
+- **Formal private training:** Opacus DP-SGD with explicit epsilon, delta, clipping, sampling, noise, epoch, and accountant records
+- **Core IDS metrics:** Recall, FNR, F1, PR-AUC
+- **Core MIA metrics:** ROC-AUC, advantage, balanced accuracy, TPR at 1% and 5% FPR, and bootstrap confidence intervals
+
+KDDTest+ is never used to tune the IDS threshold, train or calibrate the MIA attacker, or select a privacy configuration.
+
+## Why the baseline floor effect matters
+
+The strongest evaluated non-private baseline attack is already near chance. This leaves limited room for a large empirical leakage reduction after DP-SGD. Formal differential privacy and empirical MIA resistance are therefore reported as distinct forms of evidence: an epsilon/delta guarantee does not depend on the MIA result, and a weak MIA does not establish formal privacy.
 
 ## Repository layout
 
-```text
+~~~text
 notebooks/   Colab notebooks in execution order
-data/        Dataset instructions and split metadata only
-results/     Concise final CSV evidence
+data/        Dataset instructions, hashes, and split metadata
+results/     Concise committed CSV and JSON evidence
 manifests/   Reproducibility and protocol manifests
-artifacts/   Documentation for external model artifacts
-report/      Experiment interpretations and final tables
-```
+artifacts/   Documentation for external model/preprocessing artifacts
+report/      Accepted experiment interpretations
+~~~
 
-## Dataset
+Large model files, transformed arrays, and per-sample scores remain outside Git. Their identifiers and originating paths are recorded in manifests where available.
 
-The NSL-KDD dataset is not included. Place the official `KDDTrain+.txt` and `KDDTest+.txt` files in Google Drive or another configured data directory.
+## Reproduce the pipeline
 
-## Execution order
+### 1. Clone and create an environment
 
-1. `01_baseline_nsl_kdd_ids.ipynb`
-2. `02_03_mia_ready_baseline_and_audit.ipynb`
-3. `04_dp_sgd_feasibility_smoke_test.ipynb`
-4. `05_dp_sgd_privacy_utility_sweep.ipynb`
+~~~bash
+git clone https://github.com/tawsif113/privacy-utility-dp-ids.git
+cd privacy-utility-dp-ids
+
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+~~~
+
+The accepted Experiment 04 run used Python 3.12.13, PyTorch 2.11.0+cu128, Opacus 1.6.0, scikit-learn 1.6.1, NumPy 2.0.2, and pandas 2.2.2. GPU availability changes runtime, not the protocol.
+
+### 2. Supply NSL-KDD externally
+
+The raw dataset is intentionally excluded. Provide:
+
+~~~text
+KDDTrain+.txt
+KDDTest+.txt
+~~~
+
+Expected SHA-256 hashes:
+
+~~~text
+KDDTrain+: 1b86d2f957b33082081bba410fe129b475efebcc13c9014c3f447c8271aadf95
+KDDTest+:  fa46b0935342616aa83b7c2578db355b6a7aaabbc492248172c7a1e8b7ab8f84
+~~~
+
+See [data/README.md](data/README.md) for accepted split sizes and external-artifact notes.
+
+### 3. Execute notebooks in order
+
+1. [01_baseline_nsl_kdd_ids.ipynb](notebooks/01_baseline_nsl_kdd_ids.ipynb)
+2. [02_03_mia_ready_baseline_and_audit.ipynb](notebooks/02_03_mia_ready_baseline_and_audit.ipynb)
+3. [04_dp_sgd_feasibility_smoke_test.ipynb](notebooks/04_dp_sgd_feasibility_smoke_test.ipynb)
+4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
+
+Experiment 05 is computationally heavier and should be treated as incomplete until its CSV results, manifests, privacy accounting, MIA metrics, paired differences, and uncertainty estimates are committed.
 
 ## Claim boundary
 
-This project should be described as differentially private only after DP-SGD is implemented with valid epsilon/delta accounting. Weak empirical MIA leakage does not by itself establish privacy.
+The supported project description is:
+
+> We are evaluating formal DP-SGD for tabular intrusion detection using explicit privacy accounting and membership-inference auditing, while reporting IDS-specific utility metrics including Recall and FNR.
+
+Do not infer that:
+
+- DP-SGD has already reduced membership leakage
+- epsilon 8 is optimal
+- membership leakage has been eliminated
+- the final privacy–utility tradeoff is known
+- the study outperforms prior work
+
+The reported DP guarantee is conditional on fixed preprocessing. The current study is limited to NSL-KDD, binary classification, one MLP family, and the stated black-box MIA threat models.
+
+## Researcher
+
+**Kazi Md. Tawsif Rahman**
+
+- [Academic portfolio](https://research.tawsifrahman.flaro-tech.com)
+- [GitHub profile](https://github.com/tawsif113)
+- [Email](mailto:tawsifcse113@gmail.com)
