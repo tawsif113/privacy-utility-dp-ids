@@ -108,7 +108,6 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 3. [04_dp_sgd_feasibility_smoke_test.ipynb](notebooks/04_dp_sgd_feasibility_smoke_test.ipynb)
 4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
 
-Experiment 05 is computationally heavier and should be treated as incomplete until its CSV results, manifests, privacy accounting, MIA metrics, paired differences, and uncertainty estimates are committed.
 
 ## Claim boundary
 
