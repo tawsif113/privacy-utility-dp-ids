@@ -2,6 +2,15 @@
 
 A reproducible empirical study of how formally accounted DP-SGD affects intrusion-detection utility and measurable training-membership leakage in an MLP trained on NSL-KDD.
 
+## Quick review
+
+- [Accepted experiment summary](report/experiment_summary.md) — methods, results, and claim boundaries in one place
+- [Evidence index](results/README.md) — maps every reported result to its committed CSV or JSON source
+- [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
+- `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
+
+**Current boundary:** Experiments 01–04 are complete. Experiment 05 is implemented but remains in progress until its privacy-budget sweep, condition-matched membership-inference results, uncertainty estimates, and manifests are committed and reviewed.
+
 ## Research question
 
 How does formally accounted DP-SGD affect IDS utility—particularly Recall and False Negative Rate (FNR)—and membership-inference risk under score-only and label-aware attacks?
@@ -64,6 +73,7 @@ results/     Concise committed CSV and JSON evidence
 manifests/   Reproducibility and protocol manifests
 artifacts/   Documentation for external model/preprocessing artifacts
 report/      Accepted experiment interpretations
+scripts/     Repository-level evidence consistency checks
 ~~~
 
 Large model files, transformed arrays, and per-sample scores remain outside Git. Their identifiers and originating paths are recorded in manifests where available.
@@ -82,6 +92,8 @@ pip install -r requirements.txt
 ~~~
 
 The accepted Experiment 04 run used Python 3.12.13, PyTorch 2.11.0+cu128, Opacus 1.6.0, scikit-learn 1.6.1, NumPy 2.0.2, and pandas 2.2.2. GPU availability changes runtime, not the protocol.
+
+`requirements.txt` pins the versions verified by the accepted Experiment 04 manifest. Packages used only by earlier baseline notebooks remain explicitly unpinned where their exact run versions were not recorded.
 
 ### 2. Supply NSL-KDD externally
 
@@ -107,6 +119,14 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 2. [02_03_mia_ready_baseline_and_audit.ipynb](notebooks/02_03_mia_ready_baseline_and_audit.ipynb)
 3. [04_dp_sgd_feasibility_smoke_test.ipynb](notebooks/04_dp_sgd_feasibility_smoke_test.ipynb)
 4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
+
+### 4. Validate the committed evidence
+
+~~~bash
+python scripts/validate_evidence.py
+~~~
+
+This check does not rerun model training. It verifies that dataset hashes, privacy-accounting fields, utility tables, parity checks, and the reported baseline MIA result agree across the committed evidence files.
 
 
 ## Claim boundary
