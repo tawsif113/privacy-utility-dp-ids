@@ -1,8 +1,12 @@
+# Versions recorded in the accepted Experiment 04 manifest.
 numpy==2.0.2
 pandas==2.2.2
-scikit-learn
+scikit-learn==1.6.1
+torch==2.11.0
+opacus==1.6.0
+
+# Used by the baseline notebooks. Their exact accepted-run versions were not
+# recorded, so they are intentionally not presented as verified pins.
 matplotlib
 joblib
-torch
-opacus
 xgboost
