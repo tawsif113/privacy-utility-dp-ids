@@ -1,0 +1,87 @@
+{
+  "protocol_version": "ROADMAP_REVISED_V2",
+  "protocol_revision": "epsilon_delta_matched_v2",
+  "experiment": "05_dp_sgd_privacy_utility_sweep",
+  "seed": 42,
+  "shadow_seeds": [
+    101,
+    202,
+    303,
+    404,
+    505
+  ],
+  "calibration_shadow_seed": 505,
+  "conditions": [
+    {
+      "condition": "non_private",
+      "formal_dp": false,
+      "target_epsilon": null
+    },
+    {
+      "condition": "dp_eps_8",
+      "formal_dp": true,
+      "target_epsilon": 8.0
+    },
+    {
+      "condition": "dp_eps_4",
+      "formal_dp": true,
+      "target_epsilon": 4.0
+    },
+    {
+      "condition": "dp_eps_2",
+      "formal_dp": true,
+      "target_epsilon": 2.0
+    }
+  ],
+  "target_epsilons": [
+    8.0,
+    4.0,
+    2.0
+  ],
+  "target_delta": 1.134031140495118e-05,
+  "architecture": {
+    "target_input_dim": 122,
+    "hidden_dims": [
+      64,
+      32
+    ],
+    "activation": "ReLU",
+    "output": "one logit",
+    "batch_norm": false
+  },
+  "training": {
+    "optimizer": "Adam",
+    "epochs": 30,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "loss": "BCEWithLogitsLoss"
+  },
+  "dp": {
+    "max_grad_norm": 1.0,
+    "accountant": "prv",
+    "poisson_sampling": true,
+    "secure_mode": false,
+    "privacy_scope": "DP-SGD optimisation conditional on fixed preprocessing."
+  },
+  "mia": {
+    "bootstrap_n": 1000,
+    "threat_models": [
+      "score_only_black_box",
+      "label_aware_audit"
+    ],
+    "attacks": [
+      "threshold",
+      "logistic_regression",
+      "random_forest"
+    ],
+    "target_evaluation": "Balanced target_train members and target_validation non-members.",
+    "shadow_protocol": "Five condition-matched shadows; seeds 101-404 train attackers and seed 505 calibrates thresholds.",
+    "dp_shadow_rule": "Match target epsilon and fixed target delta; derive a shadow-specific noise multiplier.",
+    "paired_difference_rule": "Paired bootstrap on identical target records."
+  },
+  "execution": {
+    "resume": true,
+    "save_intermediate_attack_data": true
+  }
+}

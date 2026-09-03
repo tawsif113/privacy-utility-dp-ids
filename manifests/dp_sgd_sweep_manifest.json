@@ -1,0 +1,221 @@
+{
+  "protocol_version": "ROADMAP_REVISED_V2",
+  "protocol_revision": "epsilon_delta_matched_v2",
+  "experiment": "05_dp_sgd_privacy_utility_sweep",
+  "seed": 42,
+  "shadow_seeds": [
+    101,
+    202,
+    303,
+    404,
+    505
+  ],
+  "calibration_shadow_seed": 505,
+  "conditions": [
+    {
+      "condition": "non_private",
+      "formal_dp": false,
+      "target_epsilon": null
+    },
+    {
+      "condition": "dp_eps_8",
+      "formal_dp": true,
+      "target_epsilon": 8.0
+    },
+    {
+      "condition": "dp_eps_4",
+      "formal_dp": true,
+      "target_epsilon": 4.0
+    },
+    {
+      "condition": "dp_eps_2",
+      "formal_dp": true,
+      "target_epsilon": 2.0
+    }
+  ],
+  "target_epsilons": [
+    8.0,
+    4.0,
+    2.0
+  ],
+  "target_delta": 1.134031140495118e-05,
+  "architecture": {
+    "target_input_dim": 122,
+    "hidden_dims": [
+      64,
+      32
+    ],
+    "activation": "ReLU",
+    "output": "one logit",
+    "batch_norm": false
+  },
+  "training": {
+    "optimizer": "Adam",
+    "epochs": 30,
+    "batch_size": 256,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "loss": "BCEWithLogitsLoss"
+  },
+  "dp": {
+    "max_grad_norm": 1.0,
+    "accountant": "prv",
+    "poisson_sampling": true,
+    "secure_mode": false,
+    "privacy_scope": "DP-SGD optimisation conditional on fixed preprocessing."
+  },
+  "mia": {
+    "bootstrap_n": 1000,
+    "threat_models": [
+      "score_only_black_box",
+      "label_aware_audit"
+    ],
+    "attacks": [
+      "threshold",
+      "logistic_regression",
+      "random_forest"
+    ],
+    "target_evaluation": "Balanced target_train members and target_validation non-members.",
+    "shadow_protocol": "Five condition-matched shadows; seeds 101-404 train attackers and seed 505 calibrates thresholds.",
+    "dp_shadow_rule": "Match target epsilon and fixed target delta; derive a shadow-specific noise multiplier.",
+    "paired_difference_rule": "Paired bootstrap on identical target records."
+  },
+  "execution": {
+    "resume": true,
+    "save_intermediate_attack_data": true
+  },
+  "created_at_unix": 1788430330.567013,
+  "device": "cpu",
+  "dataset": {
+    "train_file": "/content/drive/MyDrive/ML-DP-NID/KDDTrain+.txt",
+    "test_file": "/content/drive/MyDrive/ML-DP-NID/KDDTest+.txt",
+    "train_sha256": "1b86d2f957b33082081bba410fe129b475efebcc13c9014c3f447c8271aadf95",
+    "test_sha256": "fa46b0935342616aa83b7c2578db355b6a7aaabbc492248172c7a1e8b7ab8f84"
+  },
+  "split": {
+    "target_train_rows": 88181,
+    "target_validation_rows": 12597,
+    "shadow_pool_rows": 25195
+  },
+  "preprocessor": {
+    "path": "/content/drive/MyDrive/ML-DP-NID/artifacts/preprocessor/target_mlp_preprocessor.joblib",
+    "sha256": "2cc8ef25532b1e29f12d3f5b116d88b8c4e1eaf0d69fb357087c1595ceeb5275"
+  },
+  "prerequisites": {
+    "baseline_manifest": "/content/drive/MyDrive/ML-DP-NID/artifacts/manifests/baseline_mia_combined_manifest.json",
+    "smoke_manifest": "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd_smoke_test/dp_sgd_smoke_manifest.json"
+  },
+  "target_condition_configs": [
+    {
+      "condition": "non_private",
+      "formal_dp": false,
+      "target_epsilon": null,
+      "actual_epsilon": null,
+      "delta": null,
+      "noise_multiplier": null,
+      "max_grad_norm": null,
+      "batch_size": 256,
+      "sample_rate": null,
+      "epochs": 30,
+      "optimizer": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "accountant": null,
+      "poisson_sampling": false,
+      "secure_mode": false,
+      "training_seconds": 41.0140745639801,
+      "selected_threshold": 0.29000000000000004,
+      "model_state_path": "/content/drive/MyDrive/ML-DP-NID/artifacts/models/dp_sgd_sweep/non_private.pt",
+      "model_sha256": "c380553509ec2b66f3d8734a12905688e9a9d7178d420790c26dc1b869710102"
+    },
+    {
+      "condition": "dp_eps_8",
+      "formal_dp": true,
+      "target_epsilon": 8.0,
+      "actual_epsilon": 7.99364894672444,
+      "delta": 1.134031140495118e-05,
+      "noise_multiplier": 0.560302734375,
+      "max_grad_norm": 1.0,
+      "batch_size": 256,
+      "sample_rate": 0.002898550724637681,
+      "epochs": 30,
+      "optimizer": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "accountant": "prv",
+      "poisson_sampling": true,
+      "secure_mode": false,
+      "training_seconds": 91.87378263473511,
+      "selected_threshold": 0.03,
+      "model_state_path": "/content/drive/MyDrive/ML-DP-NID/artifacts/models/dp_sgd_sweep/dp_eps_8.pt",
+      "model_sha256": "affc8ebbbed875a98295e7c169c33211961f46e401405758b202a4e6b5cffc6b"
+    },
+    {
+      "condition": "dp_eps_4",
+      "formal_dp": true,
+      "target_epsilon": 4.0,
+      "actual_epsilon": 3.9982670408726286,
+      "delta": 1.134031140495118e-05,
+      "noise_multiplier": 0.6817626953125,
+      "max_grad_norm": 1.0,
+      "batch_size": 256,
+      "sample_rate": 0.002898550724637681,
+      "epochs": 30,
+      "optimizer": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "accountant": "prv",
+      "poisson_sampling": true,
+      "secure_mode": false,
+      "training_seconds": 85.54690051078796,
+      "selected_threshold": 0.02,
+      "model_state_path": "/content/drive/MyDrive/ML-DP-NID/artifacts/models/dp_sgd_sweep/dp_eps_4.pt",
+      "model_sha256": "7ca77b11bb5dc47f6f0549b6ef77019c2061916bd3be77ca8be9d81f4df92fcf"
+    },
+    {
+      "condition": "dp_eps_2",
+      "formal_dp": true,
+      "target_epsilon": 2.0,
+      "actual_epsilon": 1.9990375327333947,
+      "delta": 1.134031140495118e-05,
+      "noise_multiplier": 0.88134765625,
+      "max_grad_norm": 1.0,
+      "batch_size": 256,
+      "sample_rate": 0.002898550724637681,
+      "epochs": 30,
+      "optimizer": "Adam",
+      "learning_rate": 0.001,
+      "weight_decay": 0.0001,
+      "accountant": "prv",
+      "poisson_sampling": true,
+      "secure_mode": false,
+      "training_seconds": 85.47071266174316,
+      "selected_threshold": 0.03,
+      "model_state_path": "/content/drive/MyDrive/ML-DP-NID/artifacts/models/dp_sgd_sweep/dp_eps_2.pt",
+      "model_sha256": "1757fc45b5e89df8d8d46f84a981ec1319d949018c5542133799e2bee3baa26f"
+    }
+  ],
+  "software": {
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:23) [GCC 11.4.0]",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.35",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "sklearn": "1.6.1",
+    "torch": "2.11.0+cpu",
+    "opacus": "1.6.0"
+  },
+  "required_outputs": [
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_ids_results.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_mia_results.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_privacy_utility_summary.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_configs.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_bootstrap_ci.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_group_analysis.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/dp_sgd_paired_mia_differences.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/mia_attack_calibration.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/shadow_model_configs.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/target_mia_sample_manifest.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/opacus_warning_summary.csv",
+    "/content/drive/MyDrive/ML-DP-NID/results/dp_sgd/config.json"
+  ]
+}

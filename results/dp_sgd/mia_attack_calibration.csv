@@ -1,0 +1,25 @@
+condition,threat_model,attack_model,feature_set,operating_threshold,shadow_calibration_auc,attacker_training_shadow_seeds,calibration_shadow_seed
+non_private,score_only_black_box,confidence_threshold,confidence,0.99998546,0.4994816978462719,"101,202,303,404",505
+non_private,score_only_black_box,logistic_regression,prob_attack,0.49985956900833967,0.5009336124463495,"101,202,303,404",505
+non_private,score_only_black_box,random_forest,prob_attack,0.6450300573765316,0.49814598581651875,"101,202,303,404",505
+non_private,label_aware_audit,loss_threshold,loss,-1.4543639e-05,0.49978941001571253,"101,202,303,404",505
+non_private,label_aware_audit,logistic_regression,loss + correctness,0.5018095729987685,0.49977742491247756,"101,202,303,404",505
+non_private,label_aware_audit,random_forest,loss + correctness,0.8539037540613438,0.4965752031894037,"101,202,303,404",505
+dp_eps_8,score_only_black_box,confidence_threshold,confidence,0.9999957,0.4985556406779344,"101,202,303,404",505
+dp_eps_8,score_only_black_box,logistic_regression,prob_attack,0.4998898396475398,0.5013578359506039,"101,202,303,404",505
+dp_eps_8,score_only_black_box,random_forest,prob_attack,0.7176487650728317,0.5000288285211884,"101,202,303,404",505
+dp_eps_8,label_aware_audit,loss_threshold,loss,-0.0008858789,0.49895824436662656,"101,202,303,404",505
+dp_eps_8,label_aware_audit,logistic_regression,loss + correctness,0.5004377707589382,0.49895824436662656,"101,202,303,404",505
+dp_eps_8,label_aware_audit,random_forest,loss + correctness,0.23224901910670478,0.49399995611763464,"101,202,303,404",505
+dp_eps_4,score_only_black_box,confidence_threshold,confidence,0.9999925,0.4977482624971514,"101,202,303,404",505
+dp_eps_4,score_only_black_box,logistic_regression,prob_attack,0.49985580787381517,0.501753946133048,"101,202,303,404",505
+dp_eps_4,score_only_black_box,random_forest,prob_attack,0.6580489320797822,0.5027942052038461,"101,202,303,404",505
+dp_eps_4,label_aware_audit,loss_threshold,loss,-7.5102134e-06,0.49811670044991274,"101,202,303,404",505
+dp_eps_4,label_aware_audit,logistic_regression,loss + correctness,0.5004500829699141,0.49811670044991274,"101,202,303,404",505
+dp_eps_4,label_aware_audit,random_forest,loss + correctness,0.5588558222769949,0.5025996363157601,"101,202,303,404",505
+dp_eps_2,score_only_black_box,confidence_threshold,confidence,0.9999832,0.49679576185577184,"101,202,303,404",505
+dp_eps_2,score_only_black_box,logistic_regression,prob_attack,0.49980178014216076,0.5018781072656153,"101,202,303,404",505
+dp_eps_2,score_only_black_box,random_forest,prob_attack,0.712645603849439,0.4973062440762115,"101,202,303,404",505
+dp_eps_2,label_aware_audit,loss_threshold,loss,-1.6808652e-05,0.49704851394612953,"101,202,303,404",505
+dp_eps_2,label_aware_audit,logistic_regression,loss + correctness,0.5004034382011459,0.49704851394612953,"101,202,303,404",505
+dp_eps_2,label_aware_audit,random_forest,loss + correctness,0.6149691904224103,0.49427559773875,"101,202,303,404",505
