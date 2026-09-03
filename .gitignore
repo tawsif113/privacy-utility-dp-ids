@@ -13,6 +13,7 @@ datasets/
 *.npz
 
 # Large per-sample/intermediate outputs
+results/dp_sgd/intermediate/
 **/shadow_attack_data.csv
 **/target_mia_evaluation.csv
 **/member_nonmember_distribution.csv

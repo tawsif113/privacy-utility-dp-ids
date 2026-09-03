@@ -4,11 +4,11 @@
 
 **Privacy–Utility Auditing of DP-SGD for ML-Based Network Intrusion Detection**
 
-The title is justified only after formal DP-SGD is implemented with valid privacy accounting.
+Formal DP-SGD has been implemented with explicit accounting. The reported guarantee remains conditional on fixed preprocessing.
 
 ## Core research question
 
-Can formal DP-SGD reduce measurable training-membership leakage in a tabular IDS model while retaining acceptable detection utility, especially Recall and False Negative Rate?
+How does formally accounted DP-SGD affect IDS utility—especially Recall and False Negative Rate—and measurable membership leakage under the stated score-only and label-aware attacks?
 
 ## Fixed scope
 
@@ -35,43 +35,54 @@ KDDTest+
 
 ## Completed and accepted
 
-1. **Experiment 01 — Baseline IDS comparison:** trained the baseline models and tuned the IDS decision threshold using validation data only.
-2. **Experiments 02–03 — MIA-ready baseline and audit:** locked the 70/10/20 split, trained the target MLP, and completed a five-shadow, shadow-disjoint membership-inference audit with manifests, confidence intervals, and low-FPR metrics.
-3. **Experiment 04 — DP-SGD feasibility:** established non-private PyTorch parity, verified Opacus compatibility, and completed a single formal DP-SGD smoke test. The accepted run reports actual $\epsilon \approx 7.9986$ at $\delta = 1.134 \times 10^{-5}$. This is feasibility evidence, not a privacy–utility sweep.
+1. **Experiment 01 — Baseline IDS comparison:** archived RF, XGBoost, and MLP utility results with validation-only threshold selection.
+2. **Experiments 02–03 — MIA-ready baseline and audit:** locked the 70/10/20 split and completed the five-shadow baseline MIA audit.
+3. **Experiment 04 — DP-SGD feasibility:** established PyTorch parity and a formally accounted Opacus run.
+4. **Experiment 05 — DP-SGD privacy–utility sweep:** completed non-private and ε≈8, 4, and 2 target conditions with condition-matched shadows, IDS utility, MIA estimates, bootstrap intervals, group diagnostics, and paired comparisons.
 
-## Current accepted conclusion
+## Accepted Experiment 05 result
 
-Under the specified score-only and label-aware shadow-calibrated attacks, measurable overall membership leakage from the non-private MLP was weak and its uncertainty interval included chance-level performance. This does not prove that the model is private. Formal differential-privacy accounting and empirical attack resistance are treated as separate forms of evidence.
+| Condition | Actual ε | Recall | FNR | F1 | PR-AUC |
+|---|---:|---:|---:|---:|---:|
+| Non-private | — | 0.7080 | 0.2920 | 0.8146 | 0.9357 |
+| DP-SGD ε≈8 | 7.9936 | 0.7128 | 0.2872 | 0.8033 | 0.8967 |
+| DP-SGD ε≈4 | 3.9983 | 0.7267 | 0.2733 | 0.8106 | 0.8978 |
+| DP-SGD ε≈2 | 1.9990 | 0.6850 | 0.3150 | 0.7842 | 0.8960 |
+
+The ε≈4 condition is the provisional balance candidate. Its higher Recall is accompanied by higher FPR and lower PR-AUC than the non-private model, so it is not yet an established improvement or optimum.
+
+Overall membership leakage remained near chance for every condition. All shadow-selected overall MIA AUC confidence intervals include 0.5, and no paired overall comparison supports measured leakage reduction. Rare-group reductions are exploratory only because the group has 208 evaluated records and multiple comparisons were made.
 
 ## Current gate
 
-### Experiment 05 — DP-SGD privacy–utility sweep
+### Experiment 06 — Repeated-run stability
 
-The implementation is ready, but the experiment is not complete until the sweep has been executed and its evidence has been reviewed.
+Repeat only:
 
-For every privacy target:
+```text
+Non-private MLP
+DP-SGD ε≈4 — provisional balanced condition
+DP-SGD ε≈2 — strongest tested privacy condition with usable single-run utility
+```
 
-1. Calibrate and record the requested and actual privacy budget at a fixed delta.
-2. Train the target model and condition-matched shadow models with the same DP mechanism.
-3. Measure IDS utility and membership-inference outcomes under the locked protocol.
-4. Save manifests, accounting parameters, result tables, diagnostics, and paired uncertainty estimates.
+Use seeds `[42, 52, 62, 72, 82]`. Keep the split, preprocessing definition, architecture, epoch schedule, threshold rule, MIA protocol, delta, and accountant fixed.
 
 ### Acceptance gate
 
-Do not mark Experiment 05 complete until:
+Do not select a final balance point until:
 
-- every DP target has a reproducible actual epsilon at the fixed delta;
-- every target and shadow condition uses the documented matching procedure;
-- the committed CSVs and manifests agree with the notebook outputs;
-- utility, MIA, and uncertainty results have passed the repository's review checks.
+- mean, standard deviation, and uncertainty are reported for IDS F1, Recall, FNR, MIA AUC, MIA advantage, and actual epsilon;
+- the ε≈4 utility pattern persists across seeds;
+- conclusions are weakened if the apparent balance disappears;
+- every repeated condition has CSV evidence and a manifest.
 
-## Next phases
+## Later phases
 
-1. Review and accept Experiment 05.
-2. Run **Experiment 06 — repeated-run stability analysis**.
-3. Complete **Experiment 08 — privacy–utility frontier and final analysis**.
-4. Add stronger attacks or a compact external comparator only if the accepted results justify them.
+1. Review and accept Experiment 06.
+2. Complete Experiment 08 — final privacy–utility frontier and interpretation.
+3. Consider a compact UNSW-NB15 check only after the NSL-KDD conclusion is stable.
+4. Retain the optional feature-perturbation comparator only if it answers a documented question.
 
 ## Scope restrictions
 
-Do not add federated learning, extra datasets, transformers, adversarial evasion, new privacy mechanisms, or broad model comparisons to the current study unless a documented research question requires them.
+Do not add federated learning, extra primary datasets, transformers, adversarial evasion, new privacy mechanisms, or broad model comparisons to the current study.

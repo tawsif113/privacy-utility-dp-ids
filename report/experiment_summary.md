@@ -6,105 +6,83 @@ This file records only accepted results and the current experimental gate under 
 
 **Status:** Complete and archived.
 
-**Purpose:** Compare RF, XGBoost, and MLP utility and identify the model family carried into the privacy audit.
-
-The archived baseline is retained for IDS context. It is not used as evidence of formal privacy or reduced membership leakage.
+RF, XGBoost, and MLP utility comparisons are retained as IDS context. They are not privacy evidence.
 
 ## Experiments 02–03 — MIA-ready MLP and baseline MIA audit
 
 **Status:** Complete and accepted.
 
-### Protocol
-
-- Locked 70/10/20 split of KDDTrain+
+- Locked 70/10/20 KDDTrain+ split
 - KDDTest+ reserved for final IDS utility
-- Target MLP seed: 42
-- Five shadow models: 101, 202, 303, 404, 505
-- Shadow 505 reserved entirely for attacker calibration
+- Target MLP seed 42
+- Shadow seeds 101, 202, 303, 404, and 505
+- Shadow 505 used only for attacker calibration
 - Score-only and label-aware attacks
 - 1,000 bootstrap repetitions
 
-### IDS result at the validation-selected threshold
+At the validation-selected threshold 0.24, the accepted scikit-learn target MLP reached Recall 0.7092, FNR 0.2908, F1 0.8020, and PR-AUC 0.9171 on KDDTest+.
 
-| Metric | Result |
-|---|---:|
-| Threshold | 0.24 |
-| Accuracy | 0.8007 |
-| Precision | 0.9228 |
-| Recall | 0.7092 |
-| F1 | 0.8020 |
-| FNR | 0.2908 |
-| FPR | 0.0784 |
-| ROC-AUC | 0.8981 |
-| PR-AUC | 0.9171 |
-
-### Privacy-audit result
-
-The strongest evaluated overall attack reached approximately MIA ROC-AUC 0.5029, with a 95% confidence interval spanning chance. MIA advantage and low-FPR TPR were also negligible.
-
-Accepted interpretation:
+The strongest evaluated baseline attack reached MIA ROC-AUC 0.5029 with a 95% interval containing 0.5. Accepted interpretation:
 
 > Under the specified shadow-calibrated score-only and label-aware threat models, measurable overall membership leakage from the non-private MLP was weak.
 
-This result does not establish that the model is private and does not support a leakage-reduction claim for DP-SGD. It creates a floor effect that must be reported in the final analysis.
+This does not establish that the model is private.
 
 ## Experiment 04 — PyTorch parity and DP-SGD feasibility
 
 **Status:** Complete and accepted as a feasibility gate.
 
-### Protocol checkpoint
-
-- PyTorch MLP parity check passed within the predeclared tolerances
-- Opacus compatibility passed
-- PRV accounting recorded
-- Five DP training epochs
-- Target epsilon: 8.0
-- Actual epsilon: 7.9986285
-- Delta: 1.1340311 × 10^-5
-- Noise multiplier: 0.4698181
-- Maximum gradient norm: 1.0
-- Poisson sampling enabled
-- Privacy scope conditional on fixed preprocessing
-
-### DP smoke-test result at the validation-selected threshold
-
-| Metric | Result |
-|---|---:|
-| Threshold | 0.07 |
-| Accuracy | 0.7723 |
-| Precision | 0.9142 |
-| Recall | 0.6620 |
-| F1 | 0.7680 |
-| FNR | 0.3380 |
-| FPR | 0.0821 |
-| ROC-AUC | 0.8971 |
-| PR-AUC | 0.9193 |
+PyTorch parity passed. The five-epoch Opacus smoke run reached actual ε=7.9986285 at δ=1.1340311×10^-5 with maximum gradient norm 1.0 and PRV accounting. At its validation-selected threshold it reached Recall 0.6620, FNR 0.3380, F1 0.7680, and PR-AUC 0.9193.
 
 Accepted interpretation:
 
 > Formal DP-SGD training and explicit privacy accounting are feasible for the locked MLP pipeline.
 
-These are single-run feasibility results. They do not identify an optimal privacy budget, establish the final utility cost, or show that DP-SGD reduced membership leakage.
-
 ## Experiment 05 — Privacy-budget sweep and condition-matched MIA
 
-**Status:** Current experimental gate; implementation is present, but execution evidence is pending.
+**Status:** Complete and accepted as a single-seed sweep.
 
-The notebook now includes:
+### Protocol
 
-- Non-private and multiple target-epsilon conditions
-- Explicit target privacy accounting
-- Condition-matched shadow training
-- DP shadow calibration to the same requested epsilon and fixed delta as each corresponding target condition
-- Separate corrected shadow caches
-- Score-only and label-aware MIA evaluation
-- Low-FPR metrics
-- Bootstrap confidence intervals
-- Paired bootstrap differences against the non-private baseline
-- Strict JSON output and protocol gates
+- Non-private PyTorch target plus DP-SGD targets ε≈8, 4, and 2
+- Actual ε recorded at fixed δ=1/88,181
+- Thirty epochs, batch size 256, maximum gradient norm 1.0, PRV accountant
+- Five condition-matched shadows per target condition
+- Shadows 101–404 used for attacker training; shadow 505 used for calibration
+- Identical target MIA records across conditions
+- Score-only and label-aware attacks
+- 1,000 bootstrap repetitions and paired DP-minus-non-private comparisons
 
-Experiment 05 is **not complete** until the repository contains valid result CSVs and manifests for every configuration, with per-model MIA metrics, privacy accounting, paired comparisons, and uncertainty estimates.
+### IDS utility on KDDTest+
 
-## Next gate
+| Condition | Actual ε | Threshold | Recall | FNR | F1 | FPR | PR-AUC |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Non-private | — | 0.29 | 0.7080 | 0.2920 | 0.8146 | 0.0401 | 0.9357 |
+| DP-SGD ε≈8 | 7.9936 | 0.03 | 0.7128 | 0.2872 | 0.8033 | 0.0818 | 0.8967 |
+| DP-SGD ε≈4 | 3.9983 | 0.02 | 0.7267 | 0.2733 | 0.8106 | 0.0877 | 0.8978 |
+| DP-SGD ε≈2 | 1.9990 | 0.03 | 0.6850 | 0.3150 | 0.7842 | 0.0821 | 0.8960 |
 
-Execute Experiment 05 from the accepted Experiment 04 prerequisites. Do not begin repeated-run stability analysis or final claims until the complete first-pass sweep has been reviewed for protocol validity, utility comparability, accounting, and MIA calibration.
+The ε≈4 condition is the provisional balance candidate. Its higher Recall and lower FNR occur at a higher FPR and lower PR-AUC than the non-private model; this is an operating-point tradeoff, not evidence that DP improved the underlying classifier.
+
+### Membership-inference result
+
+The shadow-selected overall MIA AUCs are approximately 0.5018 for non-private, 0.5028 for ε≈8, 0.5031 for ε≈4, and 0.5029 for ε≈2. Every corresponding 95% interval includes 0.5. Every paired overall AUC and advantage comparison has an interval crossing zero.
+
+Accepted interpretation:
+
+> Under the evaluated attacks, overall membership leakage remained weak for both non-private and DP-SGD models. The experiment does not support a claim that DP-SGD reduced measurable overall leakage.
+
+Some Rare-group paired reductions are statistically separated from zero, but the subgroup contains only 208 records and was examined alongside multiple groups and attacks. These findings remain exploratory.
+
+### Limitations
+
+- Single target-training seed
+- Formal guarantee conditional on fixed preprocessing
+- `secure_mode: false` recorded
+- Opacus warnings preserved
+- NSL-KDD binary task and one MLP architecture only
+- Baseline MIA floor limits empirical leakage-reduction claims
+
+## Next gate — Experiment 06
+
+Repeat only the non-private, ε≈4, and ε≈2 conditions using seeds 42, 52, 62, 72, and 82. Do not select a final balance point or add ε≈1 until stability evidence is reviewed.

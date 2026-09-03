@@ -9,7 +9,7 @@ A reproducible empirical study of how formally accounted DP-SGD affects intrusio
 - [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
 - `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
 
-**Current boundary:** Experiments 01–04 are complete. Experiment 05 is implemented but remains in progress until its privacy-budget sweep, condition-matched membership-inference results, uncertainty estimates, and manifests are committed and reviewed.
+**Current boundary:** Experiments 01–05 are complete and accepted as single-run evidence. Experiment 06 repeated-run stability is the current gate; ε≈4 is only a candidate balance point until repeated runs confirm it.
 
 ## Research question
 
@@ -17,31 +17,32 @@ How does formally accounted DP-SGD affect IDS utility—particularly Recall and 
 
 ## Current stage
 
-Experiments 01–04 are complete. The Experiment 05 notebook for the formal privacy-budget sweep and condition-matched MIA evaluation is implemented and has been corrected so each DP shadow model targets the same requested epsilon and fixed delta as its corresponding target condition. Experiment 05 result CSVs and manifests are not yet committed, so the sweep is still **in progress**.
+Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch MLP with formally accounted DP-SGD conditions at actual ε values 7.9936, 3.9983, and 1.9990 using the locked split and condition-matched shadow protocol. Overall MIA estimates remained near chance, and paired 95% confidence intervals did not support an overall leakage-reduction claim. Experiment 06 repeated-run stability is now the current gate.
 
 | Phase | Artifact | Status |
 |---|---|---|
 | Baseline IDS comparison | Experiment 01 | Complete and archived |
 | Locked MIA-ready MLP and baseline audit | Experiments 02–03 | Complete and accepted |
 | PyTorch parity and DP-SGD feasibility | Experiment 04 | Complete and accepted |
-| Privacy-budget sweep and per-model MIA | Experiment 05 | Code ready; execution evidence pending |
+| Privacy-budget sweep and per-model MIA | Experiment 05 | Complete and accepted as single-run evidence |
 | Repeated-run stability analysis | Experiment 06 | Pending |
 | Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
 | Final privacy–utility analysis | Experiment 08 | Pending |
 
 ## Verified evidence
 
-| Evidence | Verified result | Interpretation |
-|---|---:|---|
-| Strongest evaluated baseline MIA ROC-AUC | approximately 0.5029 | Overall leakage is near chance under the evaluated attacks; the 95% CI spans chance |
-| DP feasibility epsilon | 7.9986 | One formally accounted smoke-test configuration |
-| DP feasibility delta | 1.134 × 10^-5 | Explicitly recorded privacy parameter |
-| DP smoke-test Recall | 66.20% | Single-run feasibility utility |
-| DP smoke-test FNR | 33.80% | Single-run feasibility utility |
-| DP smoke-test F1 | 76.80% | Single-run feasibility utility |
-| DP smoke-test PR-AUC | 91.93% | Single-run feasibility utility |
+| Condition | Actual ε | Recall | FNR | F1 | PR-AUC | Shadow-selected overall MIA AUC |
+|---|---:|---:|---:|---:|---:|---:|
+| Non-private | — | 0.7080 | 0.2920 | 0.8146 | 0.9357 | 0.5018 |
+| DP-SGD ε≈8 | 7.9936 | 0.7128 | 0.2872 | 0.8033 | 0.8967 | 0.5028 |
+| DP-SGD ε≈4 | 3.9983 | 0.7267 | 0.2733 | 0.8106 | 0.8978 | 0.5031 |
+| DP-SGD ε≈2 | 1.9990 | 0.6850 | 0.3150 | 0.7842 | 0.8960 | 0.5029 |
 
-The DP values above are from a five-epoch feasibility run at a validation-selected threshold. They do **not** establish a privacy–utility frontier, identify an optimal epsilon, or demonstrate that DP-SGD reduced membership leakage.
+These are validation-threshold-selected, single-seed KDDTest+ utility results. The ε≈4 condition is the candidate balance point for repeated-run validation, not a confirmed optimum. Its higher Recall comes with a higher FPR and lower PR-AUC than the non-private model.
+
+All shadow-selected overall MIA AUC confidence intervals include 0.5. The paired overall comparisons do not support measured leakage reduction for any DP condition. Formal privacy accounting and empirical MIA resistance therefore remain separate conclusions.
+
+Experiment 04 remains the accepted implementation-feasibility checkpoint; Experiment 05 supplies the first multi-epsilon comparison.
 
 ## Experimental protocol
 
@@ -53,7 +54,7 @@ The DP values above are from a five-epoch feasibility run at a validation-select
 - **Threshold policy:** Select the F2 operating threshold on target-validation only
 - **MIA protocol:** Five shadow models with score-only and label-aware attacks
 - **Attack calibration:** Shadow outputs only; no target-score tuning
-- **Uncertainty:** 1,000 bootstrap repetitions for the accepted baseline audit
+- **Uncertainty:** 1,000 bootstrap repetitions for MIA estimates and paired DP-minus-non-private comparisons
 - **Formal private training:** Opacus DP-SGD with explicit epsilon, delta, clipping, sampling, noise, epoch, and accountant records
 - **Core IDS metrics:** Recall, FNR, F1, PR-AUC
 - **Core MIA metrics:** ROC-AUC, advantage, balanced accuracy, TPR at 1% and 5% FPR, and bootstrap confidence intervals
@@ -91,7 +92,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ~~~
 
-The accepted Experiment 04 run used Python 3.12.13, PyTorch 2.11.0+cu128, Opacus 1.6.0, scikit-learn 1.6.1, NumPy 2.0.2, and pandas 2.2.2. GPU availability changes runtime, not the protocol.
+The accepted Experiment 04 run used Python 3.12.13, PyTorch 2.11.0+cu128, Opacus 1.6.0, scikit-learn 1.6.1, NumPy 2.0.2, and pandas 2.2.2. The Experiment 05 manifest separately records its CPU runtime and package versions. Hardware changes runtime, not the locked protocol.
 
 `requirements.txt` pins the versions verified by the accepted Experiment 04 manifest. Packages used only by earlier baseline notebooks remain explicitly unpinned where their exact run versions were not recorded.
 
@@ -126,19 +127,19 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 python scripts/validate_evidence.py
 ~~~
 
-This check does not rerun model training. It verifies that dataset hashes, privacy-accounting fields, utility tables, parity checks, and the reported baseline MIA result agree across the committed evidence files.
+This check does not rerun model training. It verifies dataset identity, privacy accounting, utility tables, MIA tables, confidence intervals, shadow budgets, paired comparisons, and manifest agreement across Experiments 01–05.
 
 
 ## Claim boundary
 
 The supported project description is:
 
-> We are evaluating formal DP-SGD for tabular intrusion detection using explicit privacy accounting and membership-inference auditing, while reporting IDS-specific utility metrics including Recall and FNR.
+> We evaluate formally accounted DP-SGD for tabular intrusion detection at multiple privacy budgets using IDS-specific utility metrics and shadow-calibrated membership-inference auditing.
 
 Do not infer that:
 
-- DP-SGD has already reduced membership leakage
-- epsilon 8 is optimal
+- DP-SGD reduced overall measurable membership leakage
+- epsilon 4 is a confirmed optimal setting
 - membership leakage has been eliminated
 - the final privacy–utility tradeoff is known
 - the study outperforms prior work
