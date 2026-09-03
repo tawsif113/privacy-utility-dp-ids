@@ -25,7 +25,7 @@ Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch M
 | Locked MIA-ready MLP and baseline audit | Experiments 02–03 | Complete and accepted |
 | PyTorch parity and DP-SGD feasibility | Experiment 04 | Complete and accepted |
 | Privacy-budget sweep and per-model MIA | Experiment 05 | Complete and accepted as single-run evidence |
-| Repeated-run stability analysis | Experiment 06 | Pending |
+| Repeated-run stability analysis | Experiment 06 | Notebook ready; execution evidence pending |
 | Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
 | Final privacy–utility analysis | Experiment 08 | Pending |
 
