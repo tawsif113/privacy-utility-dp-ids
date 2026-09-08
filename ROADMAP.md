@@ -53,36 +53,32 @@ The ε≈4 condition is the provisional balance candidate. Its higher Recall is 
 
 Overall membership leakage remained near chance for every condition. All shadow-selected overall MIA AUC confidence intervals include 0.5, and no paired overall comparison supports measured leakage reduction. Rare-group reductions are exploratory only because the group has 208 evaluated records and multiple comparisons were made.
 
-## Current gate
+## Experiment 06 acceptance
 
-### Experiment 06 — Repeated-run stability
+The supplied five-seed bundle passed an independent evidence audit. See
+[the acceptance review](report/experiment06_acceptance.md) for exact values and claim boundaries.
+The small epsilon-4 Recall gain is uncertain; false alarms increase and average precision falls.
+Paired MIA AUC comparisons do not support measured leakage reduction. Preserve the small
+exploratory positive epsilon-2 label-aware advantage difference.
 
-Repeat only:
+## Current gate — Experiment 08
 
-```text
-Non-private MLP
-DP-SGD ε≈4 — provisional balanced condition
-DP-SGD ε≈2 — strongest tested privacy condition with usable single-run utility
-```
+Run `notebooks/08_privacy_utility_frontier.ipynb` using the accepted Experiment 06 artifacts.
+It validates inputs and generates final tables, figures, plot data and interpretation without
+training models or tuning thresholds. The optional Experiment 07 comparator is skipped.
 
-Use seeds `[42, 52, 62, 72, 82]`. Keep the split, preprocessing definition, architecture, epoch schedule, threshold rule, MIA protocol, delta, and accountant fixed.
-
-### Acceptance gate
-
-Do not select a final balance point until:
-
-- mean, standard deviation, and uncertainty are reported for IDS F1, Recall, FNR, MIA AUC, MIA advantage, and actual epsilon;
-- the ε≈4 utility pattern persists across seeds;
-- conclusions are weakened if the apparent balance disappears;
-- every repeated condition has CSV evidence and a manifest.
+Acceptance requires complete, checksummed outputs, all nine required figures (including
+verified seed-42 distributions), and scientific review of the interpretation. Epsilon about 8
+remains single-seed context. Do not identify a universal optimal setting.
 
 ## Later phases
 
-1. Review and accept Experiment 06.
-2. Complete Experiment 08 — final privacy–utility frontier and interpretation.
-3. Consider a compact UNSW-NB15 check only after the NSL-KDD conclusion is stable.
-4. Retain the optional feature-perturbation comparator only if it answers a documented question.
+1. Review the Experiment 08 evidence ZIP and final claim-to-evidence alignment.
+2. Complete full-text related-work verification before novelty claims.
+3. Consider compact UNSW-NB15 validation only if the NSL-KDD conclusion warrants it.
+4. Draft the paper with conditional DP scope, frozen-attacker limitations and uncertainty explicit.
 
 ## Scope restrictions
 
 Do not add federated learning, extra primary datasets, transformers, adversarial evasion, new privacy mechanisms, or broad model comparisons to the current study.
+

@@ -4,8 +4,8 @@ This directory contains concise evidence exported from accepted runs. It is an a
 
 ## Current evidence boundary
 
-- Experiments 01–05 are complete under the protocol described in [`report/experiment_summary.md`](../report/experiment_summary.md).
-- Experiment 05 is accepted as a single-seed sweep; Experiment 06 must test stability before a final balance point is selected.
+- Experiments 01–06 are accepted within the evidence limits described in [`report/experiment_summary.md`](../report/experiment_summary.md).
+- Experiment 05 is accepted as a single-seed sweep; Experiment 06 has now tested stability; its acceptance review does not establish a final optimal point.
 - Formal privacy accounting and empirical membership-inference resistance are reported separately. A near-chance attack does not prove privacy, and an epsilon value does not show that measured leakage decreased.
 
 ## Experiments 02–03: baseline IDS and membership-inference audit
@@ -74,3 +74,16 @@ python scripts/validate_evidence.py
 ```
 
 The validator uses only Python's standard library. It checks cross-file agreement; it does not retrain models or independently reproduce the experiments.
+
+
+## Experiment 06: accepted repeated-run evidence
+
+Concise CSV/JSON outputs are committed under `repeated_runs/`. The large target-sample manifest
+remains in the original Experiment 06 ZIP and Drive project. Its hash is preserved in the manifest.
+
+Run `python scripts/audit_experiment06.py /path/to/experiment06_evidence.zip` for the full
+read-only audit. The directory copy in Git alone is intentionally insufficient for this check.
+The audit recomputes utility and seed statistics; it does not independently retrain models.
+
+See [the acceptance review](../report/experiment06_acceptance.md). Experiment 08 is the next
+analysis gate. Passing Experiment 06 does not confirm a balance point or leakage reduction.

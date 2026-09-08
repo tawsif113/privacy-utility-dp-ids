@@ -20,3 +20,12 @@ Results in the archived notebook provide baseline IDS context only; they are not
 Future notebooks should be added only when the corresponding experiment is actually created.
 
 Do not use filename suffixes such as `clean`, `v2`, `(1)`, or `final_final` in the repository. Version history belongs in Git commits.
+
+
+## Current next step: Experiment 08
+
+Experiment 06 evidence is accepted; see `report/experiment06_acceptance.md`. Run
+`08_privacy_utility_frontier.ipynb` in the existing Colab/Drive project. It trains nothing,
+validates the accepted bundle, and produces final tables, figures and `experiment08_evidence.zip`.
+A missing distribution cache produces a marked partial export with recovery paths.
+The optional Experiment 07 comparator is skipped under the scope decision.

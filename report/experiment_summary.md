@@ -83,6 +83,18 @@ Some Rare-group paired reductions are statistically separated from zero, but the
 - NSL-KDD binary task and one MLP architecture only
 - Baseline MIA floor limits empirical leakage-reduction claims
 
-## Next gate — Experiment 06
+## Experiment 06 — Repeated-run stability
 
-Repeat only the non-private, ε≈4, and ε≈2 conditions using seeds 42, 52, 62, 72, and 82. Do not select a final balance point or add ε≈1 until stability evidence is reviewed.
+**Status:** Accepted for bounded final analysis. [Full acceptance review](experiment06_acceptance.md).
+
+All 15 condition/seed runs and both attacker policies are complete. Artifact checksums and
+recomputed summaries agree. Mean Recall/F1/FPR are 0.70934/0.80975/0.05610 non-private,
+0.71338/0.80166/0.08755 at epsilon about 4, and 0.70108/0.79461/0.08382 at epsilon about 2.
+The epsilon-4 Recall gain is uncertain; FPR rises and average precision falls. Do not declare
+an optimum. Paired AUC intervals cross zero. Disclose the small exploratory increase in
+epsilon-2 label-aware advantage. Some conditional across-seed AUC intervals exclude 0.5.
+
+## Next gate — Experiment 08
+
+The final-analysis notebook is ready. It produces tables and figures from accepted evidence,
+without training. Review its output ZIP before final paper claims or scope expansion.

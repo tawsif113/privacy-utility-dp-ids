@@ -9,7 +9,7 @@ A reproducible empirical study of how formally accounted DP-SGD affects intrusio
 - [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
 - `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
 
-**Current boundary:** Experiments 01–05 are complete and accepted as single-run evidence. Experiment 06 repeated-run stability is the current gate; ε≈4 is only a candidate balance point until repeated runs confirm it.
+**Current boundary:** Experiment 06 is accepted as a five-seed stability study. Proceed to [Experiment 08](notebooks/08_privacy_utility_frontier.ipynb) final analysis. The repeated results do not establish ε≈4 as optimal or demonstrate reduced measured leakage. See the [acceptance review](report/experiment06_acceptance.md).
 
 ## Research question
 
@@ -17,7 +17,7 @@ How does formally accounted DP-SGD affect IDS utility—particularly Recall and 
 
 ## Current stage
 
-Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch MLP with formally accounted DP-SGD conditions at actual ε values 7.9936, 3.9983, and 1.9990 using the locked split and condition-matched shadow protocol. Overall MIA estimates remained near chance, and paired 95% confidence intervals did not support an overall leakage-reduction claim. Experiment 06 repeated-run stability is now the current gate.
+Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch MLP with formally accounted DP-SGD conditions at actual ε values 7.9936, 3.9983, and 1.9990 using the locked split and condition-matched shadow protocol. Overall MIA estimates remained near chance, and paired 95% confidence intervals did not support an overall leakage-reduction claim. Experiment 06 is now accepted; its [five-seed review](report/experiment06_acceptance.md) supersedes single-seed candidate interpretations. Experiment 08 final analysis is the current gate.
 
 | Phase | Artifact | Status |
 |---|---|---|
@@ -25,9 +25,9 @@ Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch M
 | Locked MIA-ready MLP and baseline audit | Experiments 02–03 | Complete and accepted |
 | PyTorch parity and DP-SGD feasibility | Experiment 04 | Complete and accepted |
 | Privacy-budget sweep and per-model MIA | Experiment 05 | Complete and accepted as single-run evidence |
-| Repeated-run stability analysis | Experiment 06 | Notebook ready; execution evidence pending |
+| Repeated-run stability analysis | Experiment 06 | Complete; evidence independently checked |
 | Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
-| Final privacy–utility analysis | Experiment 08 | Pending |
+| Final privacy–utility analysis | Experiment 08 | Notebook ready; run and review pending |
 
 ## Verified evidence
 
@@ -38,7 +38,7 @@ Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch M
 | DP-SGD ε≈4 | 3.9983 | 0.7267 | 0.2733 | 0.8106 | 0.8978 | 0.5031 |
 | DP-SGD ε≈2 | 1.9990 | 0.6850 | 0.3150 | 0.7842 | 0.8960 | 0.5029 |
 
-These are validation-threshold-selected, single-seed KDDTest+ utility results. The ε≈4 condition is the candidate balance point for repeated-run validation, not a confirmed optimum. Its higher Recall comes with a higher FPR and lower PR-AUC than the non-private model.
+These are validation-threshold-selected, single-seed KDDTest+ utility results. The ε≈4 condition was shortlisted for repeated-run validation. Experiment 06 did not establish its apparent Recall improvement; it remains a comparative setting, not a confirmed optimum. Its higher Recall comes with a higher FPR and lower PR-AUC than the non-private model.
 
 All shadow-selected overall MIA AUC confidence intervals include 0.5. The paired overall comparisons do not support measured leakage reduction for any DP condition. Formal privacy accounting and empirical MIA resistance therefore remain separate conclusions.
 
@@ -120,6 +120,8 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 2. [02_03_mia_ready_baseline_and_audit.ipynb](notebooks/02_03_mia_ready_baseline_and_audit.ipynb)
 3. [04_dp_sgd_feasibility_smoke_test.ipynb](notebooks/04_dp_sgd_feasibility_smoke_test.ipynb)
 4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
+5. [06_repeated_runs_stability.ipynb](notebooks/06_repeated_runs_stability.ipynb) — accepted; preserve outputs
+6. [08_privacy_utility_frontier.ipynb](notebooks/08_privacy_utility_frontier.ipynb) — current analysis gate; no training
 
 ### 4. Validate the committed evidence
 
@@ -153,3 +155,4 @@ The reported DP guarantee is conditional on fixed preprocessing. The current stu
 - [Academic portfolio](https://research.tawsifrahman.flaro-tech.com)
 - [GitHub profile](https://github.com/tawsif113)
 - [Email](mailto:tawsifcse113@gmail.com)
+

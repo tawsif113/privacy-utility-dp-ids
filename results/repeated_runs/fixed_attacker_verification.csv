@@ -1,0 +1,13 @@
+analysis_role,condition,threat_model,attack_model,feature_set,accepted_operating_threshold,reconstructed_operating_threshold,accepted_shadow_calibration_auc,reconstructed_shadow_calibration_auc,verification_passed
+primary,dp_eps_2,score_only_black_box,logistic_regression,prob_attack,0.4998017801421607,0.49980178014216076,0.5018781072656153,0.5018781072656153,True
+primary,dp_eps_2,label_aware_audit,loss_threshold,loss,-1.6808652e-05,-1.6808652e-05,0.4970485139461295,0.49704851394612953,True
+secondary,dp_eps_2,label_aware_audit,loss_threshold,loss,-1.6808652e-05,-1.6808652e-05,0.4970485139461295,0.49704851394612953,True
+secondary,dp_eps_2,score_only_black_box,logistic_regression,prob_attack,0.4998017801421607,0.49980178014216076,0.5018781072656153,0.5018781072656153,True
+primary,dp_eps_4,score_only_black_box,logistic_regression,prob_attack,0.4998558078738151,0.49985580787381517,0.501753946133048,0.501753946133048,True
+primary,dp_eps_4,label_aware_audit,loss_threshold,loss,-7.5102134e-06,-7.5102134e-06,0.4981167004499127,0.49811670044991274,True
+secondary,dp_eps_4,label_aware_audit,random_forest,loss + correctness,0.5588558222769949,0.5588558222769949,0.5025996363157601,0.5025996363157601,True
+secondary,dp_eps_4,score_only_black_box,random_forest,prob_attack,0.6580489320797822,0.6580489320797822,0.5027942052038461,0.5027942052038461,True
+primary,non_private,score_only_black_box,logistic_regression,prob_attack,0.4998595690083396,0.49985956900833967,0.5009336124463495,0.5009336124463495,True
+primary,non_private,label_aware_audit,loss_threshold,loss,-1.4543639e-05,-1.4543639e-05,0.4997894100157125,0.49978941001571253,True
+secondary,non_private,label_aware_audit,loss_threshold,loss,-1.4543639e-05,-1.4543639e-05,0.4997894100157125,0.49978941001571253,True
+secondary,non_private,score_only_black_box,logistic_regression,prob_attack,0.4998595690083396,0.49985956900833967,0.5009336124463495,0.5009336124463495,True
