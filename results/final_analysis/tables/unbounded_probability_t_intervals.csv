@@ -1,0 +1,3 @@
+condition,domain,threat_model,metric,n_seeds,mean,standard_deviation,ci_method,ci_low,ci_high
+non_private,MIA,score_only_black_box,tpr_at_1pct_fpr,5,0.0002857823291259,0.0006390287146939,"two-sided t interval, df=4",-0.0005076766197278,0.0010792412779798
+non_private,MIA,score_only_black_box,tpr_at_5pct_fpr,5,0.0055092482337064,0.0123190535554882,"two-sided t interval, df=4",-0.0097868770580874,0.0208053735255002

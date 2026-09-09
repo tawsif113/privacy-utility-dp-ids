@@ -8,8 +8,8 @@
 | 02–03 | `02_03_mia_ready_baseline_and_audit.ipynb` | Complete and accepted |
 | 04 | `04_dp_sgd_feasibility_smoke_test.ipynb` | Complete and accepted; executed outputs and result tables are committed |
 | 05 | `05_dp_sgd_privacy_utility_sweep.ipynb` | Complete and accepted as single-run evidence; outputs and result tables committed |
-| 06 | `06_repeated_runs_stability.ipynb` | Current gate; implementation ready, execution evidence pending |
-| 08 | `08_privacy_utility_frontier.ipynb` | Planned; not created |
+| 06 | `06_repeated_runs_stability.ipynb` | Complete and accepted; five-seed selected-condition evidence |
+| 08 | `08_privacy_utility_frontier.ipynb` | Complete and accepted; executed final analysis |
 
 ## Archived Experiment 01 record
 
@@ -22,10 +22,9 @@ Future notebooks should be added only when the corresponding experiment is actua
 Do not use filename suffixes such as `clean`, `v2`, `(1)`, or `final_final` in the repository. Version history belongs in Git commits.
 
 
-## Current next step: Experiment 08
+## Current next step: external-validity protocol
 
-Experiment 06 evidence is accepted; see `report/experiment06_acceptance.md`. Run
-`08_privacy_utility_frontier.ipynb` in the existing Colab/Drive project. It trains nothing,
-validates the accepted bundle, and produces final tables, figures and `experiment08_evidence.zip`.
-A missing distribution cache produces a marked partial export with recovery paths.
-The optional Experiment 07 comparator is skipped under the scope decision.
+Experiment 08 is accepted; see `report/experiment08_acceptance.md`. Preserve its executed
+notebook and Drive bundle. Before adding Experiment 09, freeze the compact UNSW-NB15 design:
+non-private, epsilon about 4, and epsilon about 2 only. The optional Experiment 07 comparator
+remains skipped under the scope decision.

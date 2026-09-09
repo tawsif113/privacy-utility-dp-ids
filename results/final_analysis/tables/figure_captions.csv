@@ -1,0 +1,11 @@
+figure,caption
+01_f1_vs_epsilon,Validation-selected F2 thresholds. Five-seed t intervals; ε≈8 is single-seed context.
+02_recall_vs_epsilon,Validation-selected F2 thresholds. Five-seed t intervals; ε≈8 is single-seed context.
+03_fnr_vs_epsilon,Validation-selected F2 thresholds. Five-seed t intervals; ε≈8 is single-seed context.
+04_mia_auc_vs_epsilon,Fixed primary attacks; conditional five-seed t intervals. Near-chance magnitude is not proof of no leakage.
+05_mia_advantage_vs_epsilon,Fixed primary attacks; conditional five-seed t intervals. Near-chance magnitude is not proof of no leakage.
+10_false_alarms_and_average_precision,Additional IDS diagnostics prevent selecting a configuration using recall alone.
+06_f1_vs_mia_auc,"Small points are target seeds. Error bars are marginal conditional t intervals, not a joint confidence region."
+07_fnr_vs_mia_auc,"Small points are target seeds. Error bars are marginal conditional t intervals, not a joint confidence region."
+09_final_tradeoff_frontier,Descriptive mean frontier among tested conditions. No universal best setting; uncertainty is shown in the companion figures.
+08_member_nonmember_distributions,Hash-verified seed-42 score caches; ECDFs show confidence saturation and ties without fitting an attacker.

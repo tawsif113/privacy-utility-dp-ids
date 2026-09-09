@@ -94,7 +94,18 @@ The epsilon-4 Recall gain is uncertain; FPR rises and average precision falls. D
 an optimum. Paired AUC intervals cross zero. Disclose the small exploratory increase in
 epsilon-2 label-aware advantage. Some conditional across-seed AUC intervals exclude 0.5.
 
-## Next gate — Experiment 08
+## Experiment 08 — Final privacy–utility analysis
 
-The final-analysis notebook is ready. It produces tables and figures from accepted evidence,
-without training. Review its output ZIP before final paper claims or scope expansion.
+**Status:** Complete and accepted. [Full acceptance review](experiment08_acceptance.md).
+
+The complete output has all declared checksums, final tables, ten figures, interpretation, and
+verified seed-42 member/non-member distributions. Experiment 08 started no model training,
+threshold tuning, or attacker fitting. It preserves the Experiment 06 findings: no confirmed
+epsilon-about-4 Recall improvement, higher DP false-positive rates, lower average precision,
+and no paired MIA AUC evidence of leakage reduction.
+
+## Next gate — compact UNSW-NB15 external validity
+
+Freeze a three-condition protocol before implementation: non-private, epsilon about 4 as the
+utility-favoured tested DP setting, and epsilon about 2 as the strongest tested privacy setting.
+Do not reopen the privacy sweep or call either DP condition universally optimal.

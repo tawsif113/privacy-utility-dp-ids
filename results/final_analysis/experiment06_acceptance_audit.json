@@ -1,0 +1,13 @@
+{
+  "accepted_for_final_analysis": true,
+  "manifest_sha256": "f1d93ba4362ebe9308fd7e47bcf111f90a9c8d2e8ebd7e3691e5f1686a16b570",
+  "verified_artifact_checksums": 15,
+  "condition_seed_runs": 15,
+  "new_target_runs": 12,
+  "primary_mia_rows": 30,
+  "secondary_mia_rows": 30,
+  "summaries_and_paired_differences_recomputed": true,
+  "neural_predictions_independently_recomputed": false,
+  "source_model_files_available_in_bundle": false,
+  "scope": "Training-seed stability conditional on fixed data and attackers; no universal optimum or leakage-reduction claim."
+}

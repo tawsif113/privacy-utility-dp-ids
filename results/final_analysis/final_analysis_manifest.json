@@ -1,0 +1,97 @@
+{
+  "experiment": "08_privacy_utility_frontier",
+  "protocol_version": "ROADMAP_REVISED_V2",
+  "analysis_revision": "final_analysis_v1",
+  "status": "COMPLETE",
+  "source_experiment06_manifest_sha256": "f1d93ba4362ebe9308fd7e47bcf111f90a9c8d2e8ebd7e3691e5f1686a16b570",
+  "source_experiment05_commit": "19e099bdc40bfd2650587c8be55659a20e9c89cc",
+  "source_experiment05_snapshot_sha256": {
+    "dp_sgd_ids_results.csv": "5f4da66693fee2e1a3acc9adadcf960b0a092409dcfb3fbe08cbffc2ce97a124",
+    "dp_sgd_mia_results.csv": "bbc21d97f83e6df71ef4fb12b6c93629f90ea349ed5543ee49284bef775c9345",
+    "dp_sgd_group_analysis.csv": "753da53b0fc3a0988a9c9dc8ac7011deafc386ed269bfcc49d0e7fee6d72cc29",
+    "dp_sgd_configs.csv": "111de327785768a733e995ce4adc84fd7f34abe71cb3cd578bb836a013e69fdb"
+  },
+  "training_runs_started": 0,
+  "thresholds_tuned": 0,
+  "new_attacks_fitted": 0,
+  "primary_attacks": {
+    "score_only_black_box": "logistic_regression",
+    "label_aware_audit": "loss_threshold"
+  },
+  "uncertainty_unit": "target-training seed; fixed records and attackers",
+  "distribution_sources": [
+    {
+      "condition": "non_private",
+      "seed": 42,
+      "path": "/content/drive/MyDrive/ML-DP-NID/results/repeated_runs/intermediate/non_private/seed_42/target_mia_features.csv",
+      "sha256": "a2675c4931b7965e93f6f102712bd30215c8653e15b1cdbcac5b6b6288e8e53b"
+    },
+    {
+      "condition": "dp_eps_4",
+      "seed": 42,
+      "path": "/content/drive/MyDrive/ML-DP-NID/results/repeated_runs/intermediate/dp_eps_4/seed_42/target_mia_features.csv",
+      "sha256": "0cd54be700041ca5f7a12d6cdc060cacc1f1e46b7e8bb26a0391c51cb0df0f97"
+    },
+    {
+      "condition": "dp_eps_2",
+      "seed": 42,
+      "path": "/content/drive/MyDrive/ML-DP-NID/results/repeated_runs/intermediate/dp_eps_2/seed_42/target_mia_features.csv",
+      "sha256": "21dfcaa2ffb743d713b27af2d8fa8a8daf02a2502e1c67bbe20a1efc33c4e122"
+    }
+  ],
+  "missing_distribution_inputs": [],
+  "gates": {
+    "source_evidence_gate": true,
+    "core_tables_gate": true,
+    "required_figures_gate": true,
+    "distribution_gate": true
+  },
+  "software": {
+    "python": "3.13.15",
+    "numpy": "2.1.3",
+    "pandas": "2.2.3",
+    "matplotlib": "3.10.0"
+  },
+  "output_sha256": {
+    "tables/final_primary_privacy_utility.csv": "472e035d31aad0cf150a9f8b54ea21c619e99fe8fc1ab5e9ca674e382fe623be",
+    "tables/final_secondary_privacy_utility.csv": "24820c965f9b9a8c6e1f045cb62198a26957743f9ae935a6ad3b65aae7fd9e6a",
+    "tables/five_seed_summary.csv": "59a4887640dc981e0c65b498c48e03c2038b9da53ffb8ffcade2319b23a6fe39",
+    "tables/primary_paired_differences_summary.csv": "f29545973b8122d880952a17625bbec9b591b1a4c0ac7e4db2f4b8e800e3f917",
+    "tables/secondary_paired_differences_summary.csv": "6d18fa49760e88d96003009ce57d97f9b7445a7091699f18f6a5aae1805b3234",
+    "tables/ids_default_and_tuned_per_seed.csv": "cd0d3de5f3d235fe3975fb9ad06a8970dc8f852da7c1b729903c910903677fce",
+    "tables/privacy_accounting_per_seed.csv": "ac0563334ea946d6c6741e551c1be3eda1b9f0e1673612478f22b9baaa23894c",
+    "tables/primary_mia_per_seed.csv": "bc07aa40a5d61d00b082311acd67d1cebe4ee479de951fcddc425daf7c10882d",
+    "tables/secondary_mia_per_seed.csv": "ebfdf79ad634f53d2fe212ac950c1b5a0562e301abe27185730206c8c29aae68",
+    "tables/exploratory_groups_single_seed.csv": "c3ecd7bb08aa5860643e8348cb7dbb0e2f25a2cbb8e313951bf2634a08de3e7f",
+    "tables/unbounded_probability_t_intervals.csv": "0ee6919a402e008815bf3c55a0913b1de868034fc7485a56183adab590fe6de9",
+    "experiment06_acceptance_audit.json": "7f308c6f8f777a65ff32161074dcd0ef9d00a5428242b7b4169f9f7925b7faef",
+    "figures/01_f1_vs_epsilon.png": "956cdc9be0b496576d5383e3ca1bc172a9c8fc5bf9d94d989d6ad8fe95d96fe5",
+    "figures/01_f1_vs_epsilon.pdf": "b143c862d5efedc6abcb4bb3f85b2ab5aed0711ffc0cae6d767d711fdefb0f11",
+    "figures/02_recall_vs_epsilon.png": "1d31ca2439d37ba97606c22006dcc39cb14e2c986b97fdb85281192ead3c932f",
+    "figures/02_recall_vs_epsilon.pdf": "125be64d1ad8174e5131915756e296a323bdc4ad4a77db81e9fc3fbff18b01a2",
+    "figures/03_fnr_vs_epsilon.png": "a33bf82cbe863f94c396e97a978eb6acf8f8ccb23a350ea97b834b90d4e35657",
+    "figures/03_fnr_vs_epsilon.pdf": "6c797f7e14f33b56f4005880fcb7605c7308bf14f0b18bad6740c3791be18c15",
+    "figures/04_mia_auc_vs_epsilon.png": "5ac356b01054306dabdc025837cbd21ac726c5bcf80f5b8a3658060d4f4ffd91",
+    "figures/04_mia_auc_vs_epsilon.pdf": "9abfcf4f10ee1a2bda6ecc88d0cb93167ba0542983d278037121d54df3bcd78a",
+    "figures/05_mia_advantage_vs_epsilon.png": "5efd4a52e045e11aca5b624cf3949e190177c2188b81803fb0b7984a61bb580e",
+    "figures/05_mia_advantage_vs_epsilon.pdf": "dae84f14758cbc95d1b052368288273cb898468c20c2bddc50fe747434762689",
+    "figures/10_false_alarms_and_average_precision.png": "4746029f0af5956051d8e4847398193440341437c7c2eae3274c7c5abc82d89a",
+    "figures/10_false_alarms_and_average_precision.pdf": "d0c6165270e08e24b0aa7d2c4e6c0868075d7f534cdb4efc74da852e26bc509e",
+    "plot_data/budget_figure_five_seed_data.csv": "59a4887640dc981e0c65b498c48e03c2038b9da53ffb8ffcade2319b23a6fe39",
+    "plot_data/epsilon8_single_seed_ids.csv": "e292f6b1e833e76fe123187a6a460a8748d97a019f14c513ac45c27751863b7a",
+    "plot_data/epsilon8_single_seed_mia.csv": "0e96c850ba167cd06c0b31d60583c47e3c88183ba704a37a04cf8b081fbc6605",
+    "plot_data/joint_utility_mia_per_seed.csv": "77ca4daff448ce5af6912d7ded7210f863ab3ce8e55617f6c1e85d2a89a92892",
+    "figures/06_f1_vs_mia_auc.png": "ef35c4cdfbc2ab9e70626c290da36aa5a9a580e510facc6c71ae4e12b85a4542",
+    "figures/06_f1_vs_mia_auc.pdf": "95ced84afbe8b1482f357204c8c4e244332741c16dcf672922bf0841253248df",
+    "figures/07_fnr_vs_mia_auc.png": "72f4a855873df03172a01e398f3fdc7b7ff250b1422efd8ba4dc932df2b4095c",
+    "figures/07_fnr_vs_mia_auc.pdf": "01e4a4b8b61d015e08a8d61d8cb4e7ed22ee1177004c3e44c0055d79be9c9488",
+    "tables/descriptive_frontier.csv": "34dbbcb7993d2ed98dc6c1f7168207ed4f51e934040c971c1a6f726fdf1aa098",
+    "figures/09_final_tradeoff_frontier.png": "8887af959d558725893a669fa50bf0e4db4a186731ee09f0c71a3eb7920c1bba",
+    "figures/09_final_tradeoff_frontier.pdf": "735b15f664fd6c62758d7c02dd4e414855568118d5cd18aeed83b819cb13d341",
+    "figures/08_member_nonmember_distributions.png": "738c5ce21b421cca22b6d3b457d9cdebc7b8c1c7a34c73aeb052253d8f0194d7",
+    "figures/08_member_nonmember_distributions.pdf": "5c8afc020f43b9731f5a3f9c61f2a279f1750f721c5c7b182d586aa360b5cdb5",
+    "plot_data/member_nonmember_distribution_cdf.csv": "c0143fdbbda4d95d8e39984d1cb63b09e18082fc5f820385bc311e1ff638dda6",
+    "interpretation.md": "56e30ae944694ba540a74c90d68c5b734319191de4ee92e59b902e391df09d13",
+    "tables/figure_captions.csv": "cb396985a31dbe888eceae1e724bd5fb0ea7bbf199f70a2112e646a5f99857be"
+  }
+}

@@ -9,7 +9,7 @@ A reproducible empirical study of how formally accounted DP-SGD affects intrusio
 - [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
 - `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
 
-**Current boundary:** Experiment 06 is accepted as a five-seed stability study. Proceed to [Experiment 08](notebooks/08_privacy_utility_frontier.ipynb) final analysis. The repeated results do not establish ε≈4 as optimal or demonstrate reduced measured leakage. See the [acceptance review](report/experiment06_acceptance.md).
+**Current boundary:** Experiment 08 is accepted and the NSL-KDD final analysis is complete. The tested results do not establish ε≈4 as optimal or demonstrate reduced measured leakage. See the [final-analysis review](report/experiment08_acceptance.md) and [evidence snapshot](results/final_analysis/README.md).
 
 ## Research question
 
@@ -17,7 +17,7 @@ How does formally accounted DP-SGD affect IDS utility—particularly Recall and 
 
 ## Current stage
 
-Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch MLP with formally accounted DP-SGD conditions at actual ε values 7.9936, 3.9983, and 1.9990 using the locked split and condition-matched shadow protocol. Overall MIA estimates remained near chance, and paired 95% confidence intervals did not support an overall leakage-reduction claim. Experiment 06 is now accepted; its [five-seed review](report/experiment06_acceptance.md) supersedes single-seed candidate interpretations. Experiment 08 final analysis is the current gate.
+Experiments 01–06 and 08 are complete. Experiment 06 tested non-private, ε≈4, and ε≈2 conditions over five target-training seeds using the locked split and frozen attackers. Experiment 08 verified the accepted evidence and produced the final tables and figures without new training. A compact UNSW-NB15 protocol is the next gate; it must remain external validation rather than a new sweep.
 
 | Phase | Artifact | Status |
 |---|---|---|
@@ -27,22 +27,25 @@ Experiments 01–05 are complete. Experiment 05 compared a non-private PyTorch M
 | Privacy-budget sweep and per-model MIA | Experiment 05 | Complete and accepted as single-run evidence |
 | Repeated-run stability analysis | Experiment 06 | Complete; evidence independently checked |
 | Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
-| Final privacy–utility analysis | Experiment 08 | Notebook ready; run and review pending |
+| Final privacy–utility analysis | Experiment 08 | Complete; evidence independently checked |
+| Compact external validity | Experiment 09 | Protocol freeze pending |
 
 ## Verified evidence
 
-| Condition | Actual ε | Recall | FNR | F1 | PR-AUC | Shadow-selected overall MIA AUC |
-|---|---:|---:|---:|---:|---:|---:|
-| Non-private | — | 0.7080 | 0.2920 | 0.8146 | 0.9357 | 0.5018 |
-| DP-SGD ε≈8 | 7.9936 | 0.7128 | 0.2872 | 0.8033 | 0.8967 | 0.5028 |
-| DP-SGD ε≈4 | 3.9983 | 0.7267 | 0.2733 | 0.8106 | 0.8978 | 0.5031 |
-| DP-SGD ε≈2 | 1.9990 | 0.6850 | 0.3150 | 0.7842 | 0.8960 | 0.5029 |
+| Condition | Actual ε | Recall | FNR | F1 | FPR | Average precision | Score-only MIA AUC |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Non-private | — | 0.7093 | 0.2907 | 0.8097 | 0.0561 | 0.9375 | 0.5023 |
+| DP-SGD ε≈4 | 3.9983 | 0.7134 | 0.2866 | 0.8017 | 0.0876 | 0.8907 | 0.5030 |
+| DP-SGD ε≈2 | 1.9990 | 0.7011 | 0.2989 | 0.7946 | 0.0838 | 0.8906 | 0.5033 |
 
-These are validation-threshold-selected, single-seed KDDTest+ utility results. The ε≈4 condition was shortlisted for repeated-run validation. Experiment 06 did not establish its apparent Recall improvement; it remains a comparative setting, not a confirmed optimum. Its higher Recall comes with a higher FPR and lower PR-AUC than the non-private model.
+These are five-seed means at validation-selected thresholds. The ε≈4 Recall difference is
+uncertain, while its FPR is higher and average precision lower than non-private. All primary
+and secondary paired MIA AUC intervals cross zero, so the study does not support a measured
+leakage-reduction claim. Some conditional across-seed MIA AUC intervals exclude 0.5; do not
+reuse the earlier single-seed statement that every interval contains chance.
 
-All shadow-selected overall MIA AUC confidence intervals include 0.5. The paired overall comparisons do not support measured leakage reduction for any DP condition. Formal privacy accounting and empirical MIA resistance therefore remain separate conclusions.
-
-Experiment 04 remains the accepted implementation-feasibility checkpoint; Experiment 05 supplies the first multi-epsilon comparison.
+The ε≈8 result is retained only as single-seed sweep context and is not pooled with the
+five-seed conditions.
 
 ## Experimental protocol
 
@@ -121,7 +124,7 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 3. [04_dp_sgd_feasibility_smoke_test.ipynb](notebooks/04_dp_sgd_feasibility_smoke_test.ipynb)
 4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
 5. [06_repeated_runs_stability.ipynb](notebooks/06_repeated_runs_stability.ipynb) — accepted; preserve outputs
-6. [08_privacy_utility_frontier.ipynb](notebooks/08_privacy_utility_frontier.ipynb) — current analysis gate; no training
+6. [08_privacy_utility_frontier.ipynb](notebooks/08_privacy_utility_frontier.ipynb) — complete and accepted; no training
 
 ### 4. Validate the committed evidence
 
@@ -129,7 +132,9 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 python scripts/validate_evidence.py
 ~~~
 
-This check does not rerun model training. It verifies dataset identity, privacy accounting, utility tables, MIA tables, confidence intervals, shadow budgets, paired comparisons, and manifest agreement across Experiments 01–05.
+This check does not rerun model training. It verifies the committed evidence through Experiment
+05. Use `scripts/audit_experiment06.py` and `scripts/audit_experiment08.py` for the corresponding
+complete Drive bundles.
 
 
 ## Claim boundary
@@ -143,10 +148,10 @@ Do not infer that:
 - DP-SGD reduced overall measurable membership leakage
 - epsilon 4 is a confirmed optimal setting
 - membership leakage has been eliminated
-- the final privacy–utility tradeoff is known
+- one tested setting is universally optimal
 - the study outperforms prior work
 
-The reported DP guarantee is conditional on fixed preprocessing. The current study is limited to NSL-KDD, binary classification, one MLP family, and the stated black-box MIA threat models.
+The reported DP guarantee is conditional on fixed preprocessing. The completed primary study is limited to NSL-KDD, binary classification, one MLP family, and the stated MIA threat models. External validation is pending.
 
 ## Researcher
 
@@ -155,4 +160,3 @@ The reported DP guarantee is conditional on fixed preprocessing. The current stu
 - [Academic portfolio](https://research.tawsifrahman.flaro-tech.com)
 - [GitHub profile](https://github.com/tawsif113)
 - [Email](mailto:tawsifcse113@gmail.com)
-

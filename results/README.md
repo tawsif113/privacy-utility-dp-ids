@@ -4,7 +4,7 @@ This directory contains concise evidence exported from accepted runs. It is an a
 
 ## Current evidence boundary
 
-- Experiments 01–06 are accepted within the evidence limits described in [`report/experiment_summary.md`](../report/experiment_summary.md).
+- Experiments 01–06 and 08 are accepted within the evidence limits described in [`report/experiment_summary.md`](../report/experiment_summary.md).
 - Experiment 05 is accepted as a single-seed sweep; Experiment 06 has now tested stability; its acceptance review does not establish a final optimal point.
 - Formal privacy accounting and empirical membership-inference resistance are reported separately. A near-chance attack does not prove privacy, and an epsilon value does not show that measured leakage decreased.
 
@@ -58,7 +58,7 @@ The actual DP budgets are ε=7.9936, 3.9983, and 1.9990 at the fixed δ. The ε�
 - DP accounting is conditional on the fixed, non-private preprocessing artifact.
 - `secure_mode` is false. This is disclosed as an experimental implementation limitation and is not a production-strength randomness claim.
 - Opacus accounting warnings are preserved rather than suppressed.
-- Experiment 05 is one target-training seed; stability is not yet established.
+- Experiment 05 is the single-seed sweep; Experiment 06 supplies selected-condition stability.
 - Rare-group results use 208 records and remain exploratory.
 
 ## Intentionally excluded artifacts
@@ -85,5 +85,21 @@ Run `python scripts/audit_experiment06.py /path/to/experiment06_evidence.zip` fo
 read-only audit. The directory copy in Git alone is intentionally insufficient for this check.
 The audit recomputes utility and seed statistics; it does not independently retrain models.
 
-See [the acceptance review](../report/experiment06_acceptance.md). Experiment 08 is the next
-analysis gate. Passing Experiment 06 does not confirm a balance point or leakage reduction.
+See [the acceptance review](../report/experiment06_acceptance.md). Passing Experiment 06 does
+not confirm a balance point or leakage reduction.
+
+## Experiment 08: accepted final-analysis evidence
+
+The publication-ready output is committed under [`final_analysis/`](final_analysis/). It includes
+all final tables, captions, interpretation, and PNG/PDF figures. The canonical complete ZIP
+remains in the project Drive with bundle SHA-256
+`9eabc696aac5020598dc85cce2f445ad0decf97a8bf8bb10cff19d0d4bb6113d`.
+
+The repository omits only the 66,138-row member/non-member ECDF plot-data file, the duplicate
+ZIP, and upstream score caches. Their hashes remain in `final_analysis_manifest.json`. See the
+[Experiment 08 acceptance review](../report/experiment08_acceptance.md).
+
+Run `python scripts/audit_experiment08.py /path/to/experiment08_evidence.zip
+/path/to/experiment06_evidence.zip` against the complete bundles. The audit verifies hashes,
+source agreement, summary statistics, matched-seed intervals, and distribution consistency; it
+does not rerun neural training or prediction.
