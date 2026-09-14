@@ -10,6 +10,7 @@
 | 05 | `05_dp_sgd_privacy_utility_sweep.ipynb` | Complete and accepted as single-run evidence; outputs and result tables committed |
 | 06 | `06_repeated_runs_stability.ipynb` | Complete and accepted; five-seed selected-condition evidence |
 | 08 | `08_privacy_utility_frontier.ipynb` | Complete and accepted; executed final analysis |
+| 09 | `09_unsw_nb15_external_validation.ipynb` | Protocol frozen; ready to run; evidence pending |
 
 ## Archived Experiment 01 record
 
@@ -22,9 +23,10 @@ Future notebooks should be added only when the corresponding experiment is actua
 Do not use filename suffixes such as `clean`, `v2`, `(1)`, or `final_final` in the repository. Version history belongs in Git commits.
 
 
-## Current next step: external-validity protocol
+## Current next step: run Experiment 09
 
-Experiment 08 is accepted; see `report/experiment08_acceptance.md`. Preserve its executed
-notebook and Drive bundle. Before adding Experiment 09, freeze the compact UNSW-NB15 design:
-non-private, epsilon about 4, and epsilon about 2 only. The optional Experiment 07 comparator
-remains skipped under the scope decision.
+Experiment 08 is accepted; see `report/experiment08_acceptance.md`. Experiment 09 is now
+created under the frozen compact UNSW-NB15 design: non-private, epsilon about 4, and epsilon
+about 2 only. Put the two official UNSW-NB15 training/testing CSV files in the Drive path stated
+in the notebook, run all cells, and preserve the completed evidence ZIP and executed notebook.
+The optional Experiment 07 comparator remains skipped under the scope decision.

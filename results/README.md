@@ -103,3 +103,10 @@ Run `python scripts/audit_experiment08.py /path/to/experiment08_evidence.zip
 /path/to/experiment06_evidence.zip` against the complete bundles. The audit verifies hashes,
 source agreement, summary statistics, matched-seed intervals, and distribution consistency; it
 does not rerun neural training or prediction.
+
+## Experiment 09: evidence pending
+
+The compact UNSW-NB15 protocol and notebook are committed, but no Experiment 09 result is
+accepted yet. A completed run must produce `experiment09_evidence.zip` with all final gates true.
+Do not add an `unsw_nb15_external_validation/` result snapshot here until that ZIP and the
+executed notebook have been independently reviewed.

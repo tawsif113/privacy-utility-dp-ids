@@ -70,18 +70,22 @@ review. See [the final-analysis review](report/experiment08_acceptance.md). Expe
 accepted endpoint for the NSL-KDD analysis. Epsilon about 8 remains single-seed context. The
 optional Experiment 07 comparator is skipped.
 
-## Current gate — compact external validity
+## Current gate — run compact external validity
 
-Freeze a constrained UNSW-NB15 protocol before creating Experiment 09. Use only non-private,
-epsilon about 4 as the utility-favoured tested DP setting, and epsilon about 2 as the strongest
-tested privacy setting. Preserve the threat-model labels and reporting boundaries where the
-dataset permits. Do not add a new privacy-budget sweep, architecture search, or broad
-multi-dataset replication.
+The constrained Experiment 09 UNSW-NB15 protocol is frozen and the notebook is ready to run.
+It uses only non-private, epsilon about 4 as the utility-favoured tested DP setting, and epsilon
+about 2 as the strongest tested privacy setting. It preserves the 64–32 MLP, training settings,
+threshold policy, formal accounting, and fixed threat-model labels. The official UNSW-NB15
+test partition is final IDS utility only. See `report/experiment09_protocol.md`.
+
+Do not add a new privacy-budget sweep, architecture search, attack selection, or broad
+multi-dataset replication. Preserve the executed notebook and completed evidence ZIP for review.
 
 ## Later phases
 
-1. Write and approve the compact UNSW-NB15 protocol.
-2. Run the constrained external-validity notebook and review its evidence.
+1. Run the constrained external-validity notebook and review its evidence.
+2. Decide whether the accepted UNSW-NB15 evidence supports, weakens, or contradicts the
+   accepted NSL-KDD findings.
 3. Complete full-text related-work verification before novelty claims.
 4. Draft the paper with conditional DP scope, frozen-attacker limitations and uncertainty explicit.
 

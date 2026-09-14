@@ -9,7 +9,7 @@ A reproducible empirical study of how formally accounted DP-SGD affects intrusio
 - [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
 - `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
 
-**Current boundary:** Experiment 08 is accepted and the NSL-KDD final analysis is complete. The tested results do not establish ε≈4 as optimal or demonstrate reduced measured leakage. See the [final-analysis review](report/experiment08_acceptance.md) and [evidence snapshot](results/final_analysis/README.md).
+**Current boundary:** Experiment 08 is accepted and the NSL-KDD final analysis is complete. The tested results do not establish ε≈4 as optimal or demonstrate reduced measured leakage. The compact Experiment 09 UNSW-NB15 protocol is frozen and ready to run; its evidence is not yet accepted. See the [final-analysis review](report/experiment08_acceptance.md), [evidence snapshot](results/final_analysis/README.md), and [Experiment 09 protocol](report/experiment09_protocol.md).
 
 ## Research question
 
@@ -28,7 +28,7 @@ Experiments 01–06 and 08 are complete. Experiment 06 tested non-private, ε≈
 | Repeated-run stability analysis | Experiment 06 | Complete; evidence independently checked |
 | Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
 | Final privacy–utility analysis | Experiment 08 | Complete; evidence independently checked |
-| Compact external validity | Experiment 09 | Protocol freeze pending |
+| Compact external validity | Experiment 09 | Protocol frozen; notebook ready; evidence pending |
 
 ## Verified evidence
 
@@ -125,6 +125,7 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
 5. [06_repeated_runs_stability.ipynb](notebooks/06_repeated_runs_stability.ipynb) — accepted; preserve outputs
 6. [08_privacy_utility_frontier.ipynb](notebooks/08_privacy_utility_frontier.ipynb) — complete and accepted; no training
+7. [09_unsw_nb15_external_validation.ipynb](notebooks/09_unsw_nb15_external_validation.ipynb) — run after supplying the official UNSW-NB15 training/testing CSV files
 
 ### 4. Validate the committed evidence
 
