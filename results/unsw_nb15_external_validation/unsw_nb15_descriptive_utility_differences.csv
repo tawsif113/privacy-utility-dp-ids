@@ -1,0 +1,11 @@
+reference_condition,comparison_condition,metric,reference_value,comparison_value,difference_dp_minus_non_private,uncertainty
+non_private,dp_eps_4,recall,0.9988308479661167,0.9998455836936381,0.0010147357275214208,not estimated; single target-training seed
+non_private,dp_eps_4,fnr,0.0011691520338833496,0.00015441630636195183,-0.0010147357275213978,not estimated; single target-training seed
+non_private,dp_eps_4,f1,0.8535718661928685,0.852478441182279,-0.0010934250105895105,not estimated; single target-training seed
+non_private,dp_eps_4,fpr,0.41843243243243244,0.4237837837837838,0.005351351351351341,not estimated; single target-training seed
+non_private,dp_eps_4,pr_auc,0.9816089773426468,0.9684901953674483,-0.013118781975198557,not estimated; single target-training seed
+non_private,dp_eps_2,recall,0.9988308479661167,0.9998897026383129,0.001058854672196241,not estimated; single target-training seed
+non_private,dp_eps_2,fnr,0.0011691520338833496,0.00011029736168710845,-0.001058854672196241,not estimated; single target-training seed
+non_private,dp_eps_2,f1,0.8535718661928685,0.8524358938192896,-0.0011359723735788751,not estimated; single target-training seed
+non_private,dp_eps_2,fpr,0.41843243243243244,0.424,0.005567567567567544,not estimated; single target-training seed
+non_private,dp_eps_2,pr_auc,0.9816089773426468,0.9676634301625795,-0.013945547180067352,not estimated; single target-training seed

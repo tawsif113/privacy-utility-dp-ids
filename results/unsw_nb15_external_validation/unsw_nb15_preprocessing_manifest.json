@@ -1,0 +1,15 @@
+{
+  "categorical": "most-frequent imputation then one-hot; unknown ignored",
+  "dp_scope": "DP-SGD optimisation conditional on this fixed preprocessing",
+  "excluded_label_metadata": [
+    "id",
+    "attack_cat",
+    "label"
+  ],
+  "fit_partition": "target_train_only",
+  "fit_rows": 122738,
+  "input_feature_count": 42,
+  "numeric": "median imputation then min-max scaling",
+  "preprocessor_sha256": "71a48566680c54dbb4f7796efeb58125f15877facb6ed35309c74eb3a6b390bb",
+  "transformed_feature_count": 192
+}

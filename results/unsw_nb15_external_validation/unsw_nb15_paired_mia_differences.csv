@@ -1,0 +1,9 @@
+reference_condition,comparison_condition,threat_model,reference_attack_model,comparison_attack_model,metric,n,reference_estimate,comparison_estimate,difference_dp_minus_non_private,difference_ci_low,difference_ci_high,supports_measured_reduction,bootstrap_n
+non_private,dp_eps_4,score_only_black_box,logistic_regression,logistic_regression,mia_auc,35068,0.49936257070279816,0.5007718517686032,0.0014092810658050126,-0.0008275404334610506,0.0036595179778077937,False,1000
+non_private,dp_eps_4,score_only_black_box,logistic_regression,logistic_regression,mia_advantage,35068,0.00655868598152165,0.009182160374130277,0.002623474392608627,-0.003651477130147157,0.00872875556062502,False,1000
+non_private,dp_eps_4,label_aware_audit,loss_threshold,loss_threshold,mia_auc,35068,0.5045529948501755,0.5040638345765263,-0.0004891602736492029,-0.004387576447312226,0.003224876470344753,False,1000
+non_private,dp_eps_4,label_aware_audit,loss_threshold,loss_threshold,mia_advantage,35068,0.013345500171096147,0.00935325653016994,-0.003992243640926207,-0.01009609900764233,0.004904756473137901,False,1000
+non_private,dp_eps_2,score_only_black_box,logistic_regression,logistic_regression,mia_auc,35068,0.49936257070279816,0.5,0.0006374292972018414,-0.005254114912643637,0.006861428467956992,False,1000
+non_private,dp_eps_2,score_only_black_box,logistic_regression,logistic_regression,mia_advantage,35068,0.00655868598152165,0.0,-0.00655868598152165,-0.018478384852286922,-0.001994696019162721,True,1000
+non_private,dp_eps_2,label_aware_audit,loss_threshold,loss_threshold,mia_auc,35068,0.5045529948501755,0.5040330351867399,-0.000519959663435543,-0.004446663770676167,0.0037691048022861955,False,1000
+non_private,dp_eps_2,label_aware_audit,loss_threshold,loss_threshold,mia_advantage,35068,0.013345500171096147,0.009068096270103798,-0.004277403900992349,-0.010438291319721762,0.005422322345157907,False,1000

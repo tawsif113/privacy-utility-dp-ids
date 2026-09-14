@@ -1,0 +1,7 @@
+condition,threat_model,attack_model,feature_set,operating_threshold,shadow_calibration_auc,attacker_training_shadow_seeds,calibration_shadow_seed,target_outputs_used_for_training_or_calibration
+non_private,score_only_black_box,logistic_regression,prob_attack,0.500256974418721,0.5007273042111772,"101,202,303,404",505,False
+non_private,label_aware_audit,loss_threshold,loss,-0.0009736964313656499,0.49860925381552884,none,505,False
+dp_eps_4,score_only_black_box,logistic_regression,prob_attack,0.4997898318999957,0.4997492671291873,"101,202,303,404",505,False
+dp_eps_4,label_aware_audit,loss_threshold,loss,-1.5735749911982566e-05,0.49696856185785476,none,505,False
+dp_eps_2,score_only_black_box,logistic_regression,prob_attack,0.5,0.5,"101,202,303,404",505,False
+dp_eps_2,label_aware_audit,loss_threshold,loss,-3.49289330188185e-05,0.49593462295698976,none,505,False

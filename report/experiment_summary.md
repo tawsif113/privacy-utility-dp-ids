@@ -104,8 +104,35 @@ threshold tuning, or attacker fitting. It preserves the Experiment 06 findings: 
 epsilon-about-4 Recall improvement, higher DP false-positive rates, lower average precision,
 and no paired MIA AUC evidence of leakage reduction.
 
-## Next gate — compact UNSW-NB15 external validity
+## Experiment 09 — compact UNSW-NB15 external validation
 
-Freeze a three-condition protocol before implementation: non-private, epsilon about 4 as the
-utility-favoured tested DP setting, and epsilon about 2 as the strongest tested privacy setting.
-Do not reopen the privacy sweep or call either DP condition universally optimal.
+**Status:** Complete and accepted as supplementary single-seed external evidence.
+[Full acceptance review](experiment09_acceptance.md).
+
+All 18 declared trainings completed: three seed-42 targets and five condition-matched shadows
+for each target condition. The private targets reached epsilon 3.995481 and 1.995670 at delta
+8.147436e-06. Dataset identity, split, preprocessing scope, attack isolation, official-test use,
+privacy accounting, and output-coverage gates passed.
+
+At validation-selected F2 thresholds, non-private, epsilon-about-4, and epsilon-about-2 F1 are
+0.853572, 0.852478, and 0.852436; Recall values are 0.998831, 0.999846, and 0.999890. The DP
+conditions have slightly higher FPR and lower average precision, while the absolute FPR is about
+42% for every condition. Treat these as operating-point tradeoffs, not classifier improvement.
+
+Overall score-only MIA AUCs are 0.499363, 0.500772, and 0.500000. Label-aware AUCs are
+0.504553, 0.504064, and 0.504033. Every AUC interval contains 0.5. One epsilon-about-2
+score-only advantage difference is below zero, but the corresponding attacker produces constant
+chance scores; this isolated result does not support a general leakage-reduction claim.
+
+Accepted interpretation:
+
+> The compact UNSW-NB15 check is qualitatively consistent with the NSL-KDD tradeoff: DP-SGD
+> retains selected-threshold utility while increasing false-positive burden and lowering average
+> precision, and measured overall MIA remains close to chance. The single-seed result does not
+> establish universal cross-dataset generalisation or an optimal epsilon.
+
+## Next gate — paper preparation
+
+Complete full-text related-work verification, freeze the accepted result inventory, and draft the
+paper. Do not reopen model, epsilon, threshold-policy, or attack selection after seeing Experiment
+09 unless a formal review identifies a specific blocking flaw.

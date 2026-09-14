@@ -1,0 +1,34 @@
+{
+  "completed_at_unix": 1789366862.4668012,
+  "device": "cuda",
+  "experiment": "09_unsw_nb15_external_validation",
+  "gates": {
+    "dataset_schema_and_rows": true,
+    "disjoint_complete_development_split": true,
+    "fifteen_condition_matched_shadows": true,
+    "finite_primary_evidence": true,
+    "ids_output_coverage": true,
+    "official_test_excluded_from_tuning_and_mia": true,
+    "private_target_epsilon_accounting": true,
+    "target_preprocessing_fit_only_on_target_train": true,
+    "three_pre_specified_target_conditions": true,
+    "two_fixed_attack_families_only": true
+  },
+  "protocol_fingerprint": "a4908a4539a96761555845e400e8ad93cc2afa4650e93f88042d8ed15558196a",
+  "protocol_version": "experiment09_unsw_nb15_external_validation_v1",
+  "software": {
+    "numpy": "2.1.3",
+    "opacus": "1.6.0",
+    "pandas": "2.2.3",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "sklearn": "1.6.1",
+    "torch": "2.11.0+cu128"
+  },
+  "status": "COMPLETE",
+  "trainings": {
+    "shadow": 15,
+    "target": 3,
+    "total": 18
+  }
+}

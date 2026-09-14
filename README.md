@@ -1,6 +1,6 @@
 # Privacy–Utility Auditing of DP-SGD for ML-Based Network Intrusion Detection
 
-A reproducible empirical study of how formally accounted DP-SGD affects intrusion-detection utility and measurable training-membership leakage in an MLP trained on NSL-KDD.
+A reproducible empirical study of how formally accounted DP-SGD affects intrusion-detection utility and measurable training-membership leakage in an MLP trained on NSL-KDD, with a compact supplementary UNSW-NB15 external validation.
 
 ## Quick review
 
@@ -9,7 +9,7 @@ A reproducible empirical study of how formally accounted DP-SGD affects intrusio
 - [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
 - `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
 
-**Current boundary:** Experiment 08 is accepted and the NSL-KDD final analysis is complete. The tested results do not establish ε≈4 as optimal or demonstrate reduced measured leakage. The compact Experiment 09 UNSW-NB15 protocol is frozen and ready to run; its evidence is not yet accepted. See the [final-analysis review](report/experiment08_acceptance.md), [evidence snapshot](results/final_analysis/README.md), and [Experiment 09 protocol](report/experiment09_protocol.md).
+**Current boundary:** Experiments 08 and 09 are accepted. The five-seed NSL-KDD analysis and supplementary single-seed UNSW-NB15 validation do not establish ε≈4 as optimal or demonstrate a general reduction in measured leakage. The experimental roadmap is complete; the next milestone is full-text related-work verification and paper drafting. See the [NSL-KDD final-analysis review](report/experiment08_acceptance.md), [UNSW-NB15 acceptance review](report/experiment09_acceptance.md), and [Experiment 09 evidence snapshot](results/unsw_nb15_external_validation/README.md).
 
 ## Research question
 
@@ -17,7 +17,7 @@ How does formally accounted DP-SGD affect IDS utility—particularly Recall and 
 
 ## Current stage
 
-Experiments 01–06 and 08 are complete. Experiment 06 tested non-private, ε≈4, and ε≈2 conditions over five target-training seeds using the locked split and frozen attackers. Experiment 08 verified the accepted evidence and produced the final tables and figures without new training. A compact UNSW-NB15 protocol is the next gate; it must remain external validation rather than a new sweep.
+Experiments 01–06, 08, and 09 are complete. Experiment 06 tested non-private, ε≈4, and ε≈2 conditions over five NSL-KDD target-training seeds using the locked split and frozen attackers. Experiment 08 produced the accepted final NSL-KDD analysis without new training. Experiment 09 completed the constrained single-seed UNSW-NB15 external validation with the same three conditions and fixed threat models.
 
 | Phase | Artifact | Status |
 |---|---|---|
@@ -28,7 +28,7 @@ Experiments 01–06 and 08 are complete. Experiment 06 tested non-private, ε≈
 | Repeated-run stability analysis | Experiment 06 | Complete; evidence independently checked |
 | Optional heuristic-noise comparator | Experiment 07 | Optional; not part of the core claim |
 | Final privacy–utility analysis | Experiment 08 | Complete; evidence independently checked |
-| Compact external validity | Experiment 09 | Protocol frozen; notebook ready; evidence pending |
+| Compact external validity | Experiment 09 | Complete and accepted as supplementary single-seed evidence |
 
 ## Verified evidence
 
@@ -50,6 +50,7 @@ five-seed conditions.
 ## Experimental protocol
 
 - **Dataset:** NSL-KDD
+- **Supplementary external dataset:** UNSW-NB15, Experiment 09 only
 - **Task:** Binary classification, Normal vs Attack
 - **Target model:** MLP
 - **Locked development split:** 70% target-train, 10% target-validation, 20% shadow-pool
@@ -125,7 +126,7 @@ See [data/README.md](data/README.md) for accepted split sizes and external-artif
 4. [05_dp_sgd_privacy_utility_sweep.ipynb](notebooks/05_dp_sgd_privacy_utility_sweep.ipynb)
 5. [06_repeated_runs_stability.ipynb](notebooks/06_repeated_runs_stability.ipynb) — accepted; preserve outputs
 6. [08_privacy_utility_frontier.ipynb](notebooks/08_privacy_utility_frontier.ipynb) — complete and accepted; no training
-7. [09_unsw_nb15_external_validation.ipynb](notebooks/09_unsw_nb15_external_validation.ipynb) — run after supplying the official UNSW-NB15 training/testing CSV files
+7. [09_unsw_nb15_external_validation.ipynb](notebooks/09_unsw_nb15_external_validation.ipynb) — complete and accepted supplementary external validation
 
 ### 4. Validate the committed evidence
 
@@ -152,7 +153,7 @@ Do not infer that:
 - one tested setting is universally optimal
 - the study outperforms prior work
 
-The reported DP guarantee is conditional on fixed preprocessing. The completed primary study is limited to NSL-KDD, binary classification, one MLP family, and the stated MIA threat models. External validation is pending.
+The reported DP guarantee is conditional on fixed preprocessing. The primary five-seed study is limited to NSL-KDD, binary classification, one MLP family, and the stated MIA threat models. Experiment 09 adds supplementary single-seed UNSW-NB15 evidence; it does not establish universal cross-dataset generalisation.
 
 ## Researcher
 

@@ -1,0 +1,182 @@
+{
+  "architecture": {
+    "activation": "ReLU",
+    "hidden_dims": [
+      64,
+      32
+    ]
+  },
+  "conditions": [
+    {
+      "condition": "non_private",
+      "formal_dp": false,
+      "target_epsilon": null
+    },
+    {
+      "condition": "dp_eps_4",
+      "formal_dp": true,
+      "target_epsilon": 4.0
+    },
+    {
+      "condition": "dp_eps_2",
+      "formal_dp": true,
+      "target_epsilon": 2.0
+    }
+  ],
+  "dataset_hashes": {
+    "test": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+    "train": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa"
+  },
+  "development_split": {
+    "shadow_pool": 0.2,
+    "stratification": "binary_label + attack_family",
+    "target_train": 0.7,
+    "target_validation": 0.1
+  },
+  "dp": {
+    "accountant": "prv",
+    "max_grad_norm": 1.0,
+    "poisson_sampling": true,
+    "secure_mode": false
+  },
+  "experiment": "09_unsw_nb15_external_validation",
+  "features": {
+    "categorical": [
+      "proto",
+      "service",
+      "state"
+    ],
+    "excluded": [
+      "id",
+      "attack_cat",
+      "label"
+    ],
+    "included": [
+      "ackdat",
+      "ct_dst_ltm",
+      "ct_dst_sport_ltm",
+      "ct_dst_src_ltm",
+      "ct_flw_http_mthd",
+      "ct_ftp_cmd",
+      "ct_src_dport_ltm",
+      "ct_src_ltm",
+      "ct_srv_dst",
+      "ct_srv_src",
+      "ct_state_ttl",
+      "dbytes",
+      "dinpkt",
+      "djit",
+      "dload",
+      "dloss",
+      "dmean",
+      "dpkts",
+      "dtcpb",
+      "dttl",
+      "dur",
+      "dwin",
+      "is_ftp_login",
+      "is_sm_ips_ports",
+      "proto",
+      "rate",
+      "response_body_len",
+      "sbytes",
+      "service",
+      "sinpkt",
+      "sjit",
+      "sload",
+      "sloss",
+      "smean",
+      "spkts",
+      "state",
+      "stcpb",
+      "sttl",
+      "swin",
+      "synack",
+      "tcprtt",
+      "trans_depth"
+    ]
+  },
+  "fixed_attacks": [
+    {
+      "attack_model": "logistic_regression",
+      "feature_set": "prob_attack",
+      "threat_model": "score_only_black_box"
+    },
+    {
+      "attack_model": "loss_threshold",
+      "feature_set": "loss",
+      "threat_model": "label_aware_audit"
+    }
+  ],
+  "implementation_revision": "2026-09-14b",
+  "mia": {
+    "attacker_training_shadow_seeds": [
+      101,
+      202,
+      303,
+      404
+    ],
+    "attacks": [
+      {
+        "attack_model": "logistic_regression",
+        "feature_set": "prob_attack",
+        "threat_model": "score_only_black_box"
+      },
+      {
+        "attack_model": "loss_threshold",
+        "feature_set": "loss",
+        "threat_model": "label_aware_audit"
+      }
+    ],
+    "bootstrap_n": 1000,
+    "bootstrap_scope": "record-sampling uncertainty conditional on one trained target model; not target-training-seed uncertainty",
+    "calibration_shadow_seed": 505,
+    "family_diagnostics": "descriptive only; no bootstrap intervals",
+    "target_members": "balanced sample from target_train",
+    "target_nonmembers": "balanced sample from target_validation"
+  },
+  "official_test_use": "final IDS utility only",
+  "preprocessing": {
+    "categorical": "most-frequent imputation then one-hot; unknown ignored",
+    "dp_scope": "DP-SGD optimisation conditional on this fixed preprocessing",
+    "excluded_label_metadata": [
+      "id",
+      "attack_cat",
+      "label"
+    ],
+    "fit_partition": "target_train_only",
+    "fit_rows": 122738,
+    "input_feature_count": 42,
+    "numeric": "median imputation then min-max scaling",
+    "preprocessor_sha256": "71a48566680c54dbb4f7796efeb58125f15877facb6ed35309c74eb3a6b390bb",
+    "transformed_feature_count": 192
+  },
+  "protocol_fingerprint": "a4908a4539a96761555845e400e8ad93cc2afa4650e93f88042d8ed15558196a",
+  "protocol_version": "experiment09_unsw_nb15_external_validation_v1",
+  "reporting_boundaries": [
+    "Do not call epsilon 4 optimal.",
+    "Do not claim generalisation from one target-training seed.",
+    "Do not claim DP reduced measured leakage unless the paired interval is below zero.",
+    "Formal DP applies to optimisation conditional on fixed preprocessing.",
+    "UNSW-NB15 results are supplementary external evidence."
+  ],
+  "shadow_seeds": [
+    101,
+    202,
+    303,
+    404,
+    505
+  ],
+  "split": "70% target_train / 10% target_validation / 20% shadow_pool",
+  "status_scope": "supplementary single-seed external validation",
+  "target_delta": 8.147436001890206e-06,
+  "target_seed": 42,
+  "threshold_policy": "F2 selected on target_validation only",
+  "training": {
+    "batch_size": 256,
+    "epochs": 30,
+    "learning_rate": 0.001,
+    "optimizer": "Adam",
+    "weight_decay": 0.0001
+  }
+}

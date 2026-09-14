@@ -3,8 +3,8 @@
 ## Purpose and status
 
 Experiment 09 is a supplementary, single-target-seed external validation of the accepted
-NSL-KDD findings. The protocol is frozen and the notebook is ready to run. No UNSW-NB15
-result is accepted until the completed evidence ZIP and executed notebook pass review.
+NSL-KDD findings. The protocol remains frozen. The completed evidence ZIP and executed notebook
+have passed review; see [the acceptance decision](experiment09_acceptance.md).
 
 ## Dataset and split
 

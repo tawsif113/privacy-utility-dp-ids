@@ -4,7 +4,7 @@ This directory contains concise evidence exported from accepted runs. It is an a
 
 ## Current evidence boundary
 
-- Experiments 01–06 and 08 are accepted within the evidence limits described in [`report/experiment_summary.md`](../report/experiment_summary.md).
+- Experiments 01–06, 08, and 09 are accepted within the evidence limits described in [`report/experiment_summary.md`](../report/experiment_summary.md).
 - Experiment 05 is accepted as a single-seed sweep; Experiment 06 has now tested stability; its acceptance review does not establish a final optimal point.
 - Formal privacy accounting and empirical membership-inference resistance are reported separately. A near-chance attack does not prove privacy, and an epsilon value does not show that measured leakage decreased.
 
@@ -104,9 +104,16 @@ Run `python scripts/audit_experiment08.py /path/to/experiment08_evidence.zip
 source agreement, summary statistics, matched-seed intervals, and distribution consistency; it
 does not rerun neural training or prediction.
 
-## Experiment 09: evidence pending
+## Experiment 09: accepted supplementary external evidence
 
-The compact UNSW-NB15 protocol and notebook are committed, but no Experiment 09 result is
-accepted yet. A completed run must produce `experiment09_evidence.zip` with all final gates true.
-Do not add an `unsw_nb15_external_validation/` result snapshot here until that ZIP and the
-executed notebook have been independently reviewed.
+The compact result snapshot is committed under
+[`unsw_nb15_external_validation/`](unsw_nb15_external_validation/). It contains the aggregate
+tables, manifests, configurations, warnings, interpretation, and publication figures. The
+canonical 12,693,915-byte Drive ZIP has SHA-256
+`9b40cd2decfe2ecb03feae64d9c37d99bcdc5fe88f2f82e6d84d7e9ed7783511` as reported by the
+completed notebook. Large per-record MIA exports, split indices, and the fitted preprocessor
+remain in that bundle, with their hashes preserved in the committed manifest.
+
+See [the Experiment 09 acceptance review](../report/experiment09_acceptance.md). The accepted
+boundary is supplementary single-seed consistency evidence: it does not confirm an optimal
+epsilon, universal cross-dataset generalisation, or a general reduction in measured leakage.

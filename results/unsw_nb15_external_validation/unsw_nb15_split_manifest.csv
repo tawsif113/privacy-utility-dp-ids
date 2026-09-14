@@ -1,0 +1,5 @@
+partition,rows,fraction_of_official_train,normal,attack,attack_families
+target_train,122738,0.6999960077791275,39200,83538,10
+target_validation,17534,0.09999942968273251,5600,11934,10
+shadow_pool,35069,0.20000456253813997,11200,23869,10
+official_test_final_utility_only,82332,0.46955361267473095,37000,45332,10

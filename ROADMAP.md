@@ -13,6 +13,7 @@ How does formally accounted DP-SGD affect IDS utility—especially Recall and Fa
 ## Fixed scope
 
 - Dataset: NSL-KDD
+- Supplementary external validation: one target-training seed on UNSW-NB15
 - Main task: Binary Normal vs Attack
 - Baseline models: RF, XGBoost, MLP
 - Full privacy target: MLP only
@@ -41,6 +42,7 @@ KDDTest+
 4. **Experiment 05 — DP-SGD privacy–utility sweep:** completed non-private and ε≈8, 4, and 2 target conditions with condition-matched shadows, IDS utility, MIA estimates, bootstrap intervals, group diagnostics, and paired comparisons.
 5. **Experiment 06 — repeated-run stability:** accepted five target-training seeds for non-private, ε≈4, and ε≈2 under fixed attackers.
 6. **Experiment 08 — final privacy–utility analysis:** accepted complete tables, figures, distributions, and bounded interpretation without new training.
+7. **Experiment 09 — compact external validation:** accepted one UNSW-NB15 target seed for non-private, epsilon-about-4, and epsilon-about-2 conditions with 15 condition-matched shadows.
 
 ## Accepted Experiment 05 result
 
@@ -70,24 +72,24 @@ review. See [the final-analysis review](report/experiment08_acceptance.md). Expe
 accepted endpoint for the NSL-KDD analysis. Epsilon about 8 remains single-seed context. The
 optional Experiment 07 comparator is skipped.
 
-## Current gate — run compact external validity
+## Experiment 09 acceptance
 
-The constrained Experiment 09 UNSW-NB15 protocol is frozen and the notebook is ready to run.
-It uses only non-private, epsilon about 4 as the utility-favoured tested DP setting, and epsilon
-about 2 as the strongest tested privacy setting. It preserves the 64–32 MLP, training settings,
-threshold policy, formal accounting, and fixed threat-model labels. The official UNSW-NB15
-test partition is final IDS utility only. See `report/experiment09_protocol.md`.
+The constrained UNSW-NB15 run passed all completion gates and is accepted as supplementary
+single-seed external evidence. See [the acceptance review](report/experiment09_acceptance.md).
+At the validation-selected F2 threshold, both DP conditions preserve F1 and near-perfect Recall
+closely, but have slightly higher FPR and lower average precision than non-private. Absolute FPR
+is about 42%. Overall MIA AUC intervals include 0.5 for every condition and attack. The evidence
+does not establish a general leakage reduction or an optimal epsilon.
+
+## Current gate — paper preparation
+
+1. Complete full-text related-work verification before novelty or superiority claims.
+2. Freeze the final method, result, limitation, and figure inventory from Experiments 08 and 09.
+3. Draft the paper with conditional DP scope, frozen-attacker limitations, false-positive burden,
+   and single-seed external-validation uncertainty explicit.
 
 Do not add a new privacy-budget sweep, architecture search, attack selection, or broad
-multi-dataset replication. Preserve the executed notebook and completed evidence ZIP for review.
-
-## Later phases
-
-1. Run the constrained external-validity notebook and review its evidence.
-2. Decide whether the accepted UNSW-NB15 evidence supports, weakens, or contradicts the
-   accepted NSL-KDD findings.
-3. Complete full-text related-work verification before novelty claims.
-4. Draft the paper with conditional DP scope, frozen-attacker limitations and uncertainty explicit.
+multi-dataset replication unless a formal peer review later identifies a specific blocking need.
 
 ## Scope restrictions
 
