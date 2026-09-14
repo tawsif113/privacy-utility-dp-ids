@@ -29,13 +29,26 @@ Split index arrays remain in Google Drive because `.npy` artifacts are excluded 
 
 ## Experiment 09 — UNSW-NB15 external validation
 
-Provide the official predefined partitions at:
+Experiment 09 uses these frozen official predefined partitions:
 
 ```text
 /content/drive/MyDrive/ML-DP-NID/data/unsw_nb15/UNSW_NB15_training-set.csv
 /content/drive/MyDrive/ML-DP-NID/data/unsw_nb15/UNSW_NB15_testing-set.csv
 ```
 
+```text
+UNSW_NB15_training-set.csv
+bytes:   32,293,018
+SHA-256: bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa
+
+UNSW_NB15_testing-set.csv
+bytes:   15,380,800
+SHA-256: 734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559
+```
+
 The Experiment 09 notebook requires the standard 175,341-row training partition and 82,332-row
-testing partition. It computes and records both SHA-256 hashes before training. Raw UNSW-NB15
-files are not placed in Git or copied into the evidence ZIP.
+testing partition. If either file is absent, the notebook downloads it from the frozen mirror
+revision `6f5f54594dfc80c84264aec4c7cc3d9b162f1e2f`; acquisition location does not change the
+frozen file identity. It verifies the exact byte sizes and hashes before reading data or starting
+training. Existing mismatched files are not overwritten. Raw UNSW-NB15 files are not placed in
+Git or copied into the evidence ZIP.

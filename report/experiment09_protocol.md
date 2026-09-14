@@ -9,6 +9,12 @@ result is accepted until the completed evidence ZIP and executed notebook pass r
 ## Dataset and split
 
 - Dataset: official `UNSW_NB15_training-set.csv` and `UNSW_NB15_testing-set.csv` partitions.
+- Frozen training file identity: 32,293,018 bytes; SHA-256
+  `bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa`.
+- Frozen testing file identity: 15,380,800 bytes; SHA-256
+  `734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559`.
+- If absent, the notebook retrieves these exact bytes from mirror revision
+  `6f5f54594dfc80c84264aec4c7cc3d9b162f1e2f` and verifies them before loading data.
 - Task: binary Normal versus Attack.
 - Excluded from model features: `id`, `attack_cat`, and `label`.
 - Categorical model features: `proto`, `service`, and `state`; all other model features are
