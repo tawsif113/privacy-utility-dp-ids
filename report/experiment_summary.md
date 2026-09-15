@@ -131,8 +131,13 @@ Accepted interpretation:
 > precision, and measured overall MIA remains close to chance. The single-seed result does not
 > establish universal cross-dataset generalisation or an optimal epsilon.
 
-## Next gate — paper preparation
+## Paper-preparation gate
 
-Complete full-text related-work verification, freeze the accepted result inventory, and draft the
-paper. Do not reopen model, epsilon, threshold-policy, or attack selection after seeing Experiment
-09 unless a formal review identifies a specific blocking flaw.
+**Status:** Initial gate complete. The repository now contains a verified related-work ledger, a
+frozen publication-result inventory, a BibTeX database, and complete venue-neutral Markdown and
+LaTeX drafts under `paper/`.
+
+The next gate is author/coauthor review and venue selection. Apply the venue template only after
+confirming author metadata, contribution language, page limits, anonymization, and bibliography
+rules. Do not reopen model, epsilon, threshold-policy, or attack selection unless a formal review
+identifies a specific blocking flaw.

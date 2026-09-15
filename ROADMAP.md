@@ -81,15 +81,27 @@ closely, but have slightly higher FPR and lower average precision than non-priva
 is about 42%. Overall MIA AUC intervals include 0.5 for every condition and attack. The evidence
 does not establish a general leakage reduction or an optimal epsilon.
 
-## Current gate — paper preparation
+## Paper-preparation gate
 
-1. Complete full-text related-work verification before novelty or superiority claims.
-2. Freeze the final method, result, limitation, and figure inventory from Experiments 08 and 09.
-3. Draft the paper with conditional DP scope, frozen-attacker limitations, false-positive burden,
-   and single-seed external-validation uncertainty explicit.
+**Status:** Initial gate complete.
+
+1. Full-text verification is complete for the four closest supplied papers; the evidence ledger
+   records mechanisms, datasets, evaluations, and safe comparison language.
+2. The final method, result, limitation, and figure inventory is frozen from Experiments 08 and 09.
+3. A complete venue-neutral first draft exists in Markdown and LaTeX, with conditional DP scope,
+   frozen-attacker limitations, false-positive burden, and single-seed external-validation
+   uncertainty explicit.
+
+## Next gate — author and venue review
+
+1. Confirm authors, affiliations, contributions, acknowledgements, and conflicts.
+2. Select the target venue and apply its page limit, template, anonymization, and bibliography rules.
+3. Obtain supervisor/coauthor review of the contribution statement and bounded claim language.
+4. Perform one final publisher-metadata check and a venue-specific literature search before submission.
+5. Polish prose, accessibility, figure sizing, and the reproducibility/data-availability statement.
 
 Do not add a new privacy-budget sweep, architecture search, attack selection, or broad
-multi-dataset replication unless a formal peer review later identifies a specific blocking need.
+multi-dataset replication unless author, supervisor, or peer review identifies a specific blocking need.
 
 ## Scope restrictions
 

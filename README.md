@@ -7,9 +7,10 @@ A reproducible empirical study of how formally accounted DP-SGD affects intrusio
 - [Accepted experiment summary](report/experiment_summary.md) — methods, results, and claim boundaries in one place
 - [Evidence index](results/README.md) — maps every reported result to its committed CSV or JSON source
 - [Research roadmap](ROADMAP.md) — completed work, current gate, and next experiments
+- [Paper workspace](paper/README.md) — full Markdown and LaTeX drafts, verified literature, and frozen result inventory
 - `python scripts/validate_evidence.py` — checks that the committed manifests and result tables agree
 
-**Current boundary:** Experiments 08 and 09 are accepted. The five-seed NSL-KDD analysis and supplementary single-seed UNSW-NB15 validation do not establish ε≈4 as optimal or demonstrate a general reduction in measured leakage. The experimental roadmap is complete; the next milestone is full-text related-work verification and paper drafting. See the [NSL-KDD final-analysis review](report/experiment08_acceptance.md), [UNSW-NB15 acceptance review](report/experiment09_acceptance.md), and [Experiment 09 evidence snapshot](results/unsw_nb15_external_validation/README.md).
+**Current boundary:** Experiments 08 and 09 are accepted. The five-seed NSL-KDD analysis and supplementary single-seed UNSW-NB15 validation do not establish ε≈4 as optimal or demonstrate a general reduction in measured leakage. The experimental roadmap is complete, the core literature has been checked against full text, and a venue-neutral first paper draft is frozen for author review. See the [paper workspace](paper/README.md), [NSL-KDD final-analysis review](report/experiment08_acceptance.md), [UNSW-NB15 acceptance review](report/experiment09_acceptance.md), and [Experiment 09 evidence snapshot](results/unsw_nb15_external_validation/README.md).
 
 ## Research question
 
@@ -77,6 +78,7 @@ data/        Dataset instructions, hashes, and split metadata
 results/     Concise committed CSV and JSON evidence
 manifests/   Reproducibility and protocol manifests
 artifacts/   Documentation for external model/preprocessing artifacts
+paper/       Venue-neutral paper drafts, bibliography, and publication evidence freeze
 report/      Accepted experiment interpretations
 scripts/     Repository-level evidence consistency checks
 ~~~
