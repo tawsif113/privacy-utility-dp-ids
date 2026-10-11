@@ -1,0 +1,1 @@
+What does privacy cost in intrusion detection? My DP-SGD study audits formal privacy, detection utility, and membership inference, with five-seed NSL-KDD results and supplementary UNSW-NB15 validation. Explore the evidence: https://github.com/tawsif113/privacy-utility-dp-ids

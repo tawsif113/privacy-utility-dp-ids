@@ -2,6 +2,14 @@
 
 A reproducible empirical study of how formally accounted DP-SGD affects intrusion-detection utility and measurable training-membership leakage in an MLP trained on NSL-KDD, with a compact supplementary UNSW-NB15 external validation.
 
+## Project video
+
+[![Watch the research teaser: What does privacy cost?](media/research-teaser.jpg)](media/research-teaser.mp4)
+
+[Watch or download the 22-second, 1080p video](media/research-teaser.mp4) · [Share caption](media/share-caption.txt)
+
+This teaser highlights the accepted research results; it does not establish an optimal privacy budget or a general reduction in measured membership leakage.
+
 ## Quick review
 
 - [Accepted experiment summary](report/experiment_summary.md) — methods, results, and claim boundaries in one place
