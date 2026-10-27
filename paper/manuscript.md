@@ -1,7 +1,8 @@
 # Privacy–Utility Auditing of DP-SGD for Machine-Learning-Based Network Intrusion Detection
 
-**Authors:** [Add all authors and affiliations before submission]  
-**Draft status:** venue-neutral first draft; results frozen 2026-09-14
+**Author:** Kazi Md. Tawsif Rahman  
+**Affiliation:** [To be confirmed before submission]  
+**Draft status:** methods and evidence revision, 2026-10-27; accepted results remain frozen 2026-09-14
 
 ## Abstract
 
@@ -10,8 +11,8 @@ training records, but privacy protection is useful only if detection performance
 operationally meaningful. We evaluate this tension for a binary multilayer-perceptron intrusion
 detector trained with and without formally accounted differentially private stochastic gradient
 descent (DP-SGD). The primary study uses a locked NSL-KDD partition, five target-training seeds,
-condition-matched shadow models, score-only and label-aware black-box membership-inference
-attacks (MIAs), validation-only F2 threshold selection, and an untouched KDDTest+ utility test. A
+condition-matched shadow models, score-only black-box membership-inference attacks (MIAs)
+and label-aware membership audits, validation-only F2 threshold selection, and a fixed KDDTest+ utility test. A
 supplementary single-seed experiment repeats the main conditions on the official UNSW-NB15
 training/testing partitions. On NSL-KDD, the non-private, epsilon-about-4, and epsilon-about-2
 conditions achieve mean F1 scores of 0.8097, 0.8017, and 0.7946. Their false-positive rates are
@@ -21,8 +22,8 @@ false-positive burden and lower average precision for both private conditions. O
 remain close to 0.5 for every condition, and all paired DP-minus-non-private AUC intervals cross
 zero. On UNSW-NB15, private training similarly preserves selected-threshold F1 and near-perfect
 Recall, but the operating points have approximately 42% false-positive rates and reduced average
-precision. These results do not show a DP-induced reduction in measured membership leakage,
-because the evaluated non-private model is already at an empirical attack floor. The formal DP
+precision. These results do not establish a DP-induced reduction in measured membership leakage.
+The near-chance non-private results leave little observable room for improvement under the tested attacks. The formal DP
 guarantee therefore remains the principal privacy evidence, conditional on fixed non-private
 preprocessing, while the MIA results delimit what the tested attacks could measure. The study
 contributes a reproducible evaluation design and a bounded negative result: under this protocol,
@@ -71,7 +72,7 @@ This paper asks:
 
 - **RQ1:** How does formally accounted DP-SGD affect Recall, false-negative rate (FNR), F1,
   false-positive rate (FPR), and average precision for a fixed binary IDS pipeline?
-- **RQ2:** Under predeclared score-only and label-aware black-box MIAs, is measured membership
+- **RQ2:** Under the fixed score-only black-box MIA and label-aware audit protocols, is measured membership
   leakage lower for the private models than for a matched non-private model?
 - **RQ3:** Does a constrained, single-seed UNSW-NB15 replication show the same broad
   privacy–utility pattern as the five-seed NSL-KDD study?
@@ -81,8 +82,8 @@ we contribute: (1) a reproducible protocol combining formal accounting, IDS oper
 selection, condition-matched shadow attacks, and paired uncertainty; (2) a five-seed NSL-KDD
 analysis that reports false-alarm burden and ranking quality alongside Recall/FNR; (3) a bounded
 single-seed external check on UNSW-NB15; and (4) an explicit negative finding that near-chance
-baseline MIA leaves insufficient empirical headroom to demonstrate leakage reduction under the
-tested attacks.
+baseline MIA limits the observable room for leakage reduction under the tested attacks.
+These comparisons do not establish equivalence between private and non-private models.
 
 ## 2. Background and related work
 
@@ -154,103 +155,177 @@ the present experimental scope.
 
 ### 3.1 Datasets and locked partitions
 
-NSL-KDD was proposed to reduce redundancy-related problems in KDD’99 and provides manageable
-training and test files [@tavallaee2009detailed]. We use all 125,973 rows of `KDDTrain+` as the
-development source. With seed 42, it is stratified by binary label and coarse attack family into
-88,181 target-training records (70%), 12,597 target-validation records (10%), and 25,195
-shadow-pool records (20%). `KDDTest+` contains 22,544 records and is used only for final IDS
-utility. It is never used to train or calibrate an attacker or select an IDS threshold.
+The primary task is binary classification, with Attack as the positive class. NSL-KDD provides
+125,973 records in `KDDTrain+` and 22,544 in `KDDTest+` [@tavallaee2009detailed]. A locked,
+seed-42 partition of `KDDTrain+`, stratified by binary label and coarse attack family, assigns
+88,181 records to target training, 12,597 to target validation, and 25,195 to the shadow pool.
+`KDDTest+` is reserved for IDS utility evaluation; it is not used to fit model parameters,
+calibrate attacks, or select an IDS threshold. The final study uses this same split for every
+target-training seed, rather than drawing five independent dataset splits.
 
-UNSW-NB15 contains modern synthetic/real traffic generated in the UNSW Cyber Range and is
-distributed with official training and testing partitions [@moustafa2015unsw]. For the supplementary
-study, the 175,341-row training partition is divided into 122,738 target-training, 17,534
-target-validation, and 35,069 shadow-pool records. The complete 82,332-row official testing
-partition is used only for utility. Experiment 09 uses one target-training seed and is descriptive
-external evidence, not an equally powered replication.
-
-Both datasets are reduced to binary Normal-versus-Attack classification. Coarse NSL-KDD families
-are retained for descriptive subgroup analysis, but subgroup findings are not primary because of
-small rare-family samples and multiple comparisons.
+The supplementary study uses the official UNSW-NB15 training/testing CSV partitions
+[@moustafa2015unsw]. The 175,341 training records are split, with seed 42 and binary-label/attack-family
+stratification, into 122,738 target-training, 17,534 target-validation, and 35,069 shadow-pool records.
+The 82,332 official test records are reserved for IDS utility. This study uses one target-training
+seed and the same three conditions as the primary comparison. It is a descriptive external check,
+not an equally powered replication. Dataset hashes and partition counts are preserved in the
+repository manifests. NSL-KDD family diagnostics pool R2L and U2R as Rare attacks; these
+diagnostics remain exploratory because of small samples and multiple comparisons.
 
 ### 3.2 Preprocessing and model
 
-For NSL-KDD, the 41 traffic features are used and the supplied difficulty field is excluded.
-`protocol_type`, `service`, and `flag` are one-hot encoded with unknown-category handling; numeric
-features are min–max scaled. The preprocessor is fitted only on target-train and then applied to
-validation and test records, producing 122 inputs. The same structural procedure is fitted within
-each shadow split. UNSW-NB15 uses its frozen Experiment 09 schema; identifiers and labels are not
-features, categorical variables are one-hot encoded, numeric variables are scaled, and the fitted
-preprocessor is learned from the corresponding training data only.
+NSL-KDD uses its 41 traffic features, excluding labels and the supplied difficulty field.
+`protocol_type`, `service`, and `flag` are one-hot encoded, with unseen categories ignored;
+numeric features are min–max scaled. The target preprocessor is fitted only on target-training
+records, produces 122 inputs, and is then fixed for validation, testing, and all target conditions.
+Each shadow fits its own preprocessor on its own member subset, using the same transformation
+definition. Thus shadow and target categorical vocabularies need not have identical dimensions.
 
-The target classifier is a feed-forward MLP: input–64–32–1, ReLU activations, and one output logit.
-There is no batch normalization. Non-private and private conditions use Adam for 30 epochs with
-batch size 256, learning rate 0.001, weight decay 0.0001, and binary cross-entropy with logits.
-Architecture, optimizer, epochs, split, and threshold policy are held fixed across conditions.
+UNSW-NB15 excludes `id`, `attack_cat`, and `label`, leaving 42 input features. Its categorical
+features are `proto`, `service`, and `state`; they receive most-frequent imputation followed by
+one-hot encoding with unseen categories ignored. Numeric features receive median imputation
+and min–max scaling. The target-training-only fit produces 192 transformed inputs. Shadow
+preprocessors are fitted on their corresponding shadow members only. These data-dependent
+transformations are not differentially private; the accounting scope is specified below.
+
+Both datasets use an input–64–32–1 MLP with ReLU hidden activations, one output logit, and no
+batch normalization. All target conditions use Adam, 30 epochs, nominal batch size 256,
+learning rate 0.001, weight decay 0.0001, and `BCEWithLogitsLoss`. Within a target seed, conditions
+start from the same initial parameter state. The final epoch is evaluated; validation is used for
+threshold selection, not early stopping. The non-private loader shuffles records into batches;
+the private loader uses Poisson sampling. Consequently, this is a comparison of the implemented
+non-private and private training procedures, not an ablation isolating Gaussian noise alone.
 
 ### 3.3 Private training and accounting
 
-The primary analysis compares non-private training with target privacy budgets 4 and 2. Private
-runs use maximum gradient norm 1.0, Poisson sampling, and PRV accounting. For NSL-KDD,
-\(\delta=1/88181=1.1340311\times10^{-5}\). The resulting epsilon values are 3.998267 and
-1.999038, with noise multipliers 0.6817627 and 0.8813477. Each condition is trained with target
-seeds 42, 52, 62, 72, and 82. Epsilon about 8 was evaluated only in the earlier single-seed sweep
-and is retained as context, not included in the five-seed primary comparison.
+Private training uses Opacus with flat per-example gradient clipping at norm 1.0, Gaussian noise,
+Poisson sampling, and the privacy-random-variable (PRV) accountant. Adam updates the parameters
+using the privatized gradients; DP-SGD here denotes that clipping-and-noise procedure rather than
+the choice of a plain-SGD optimizer. Noise multipliers are chosen with `make_private_with_epsilon`,
+and actual epsilon is read from the accountant after training.
 
-The UNSW-NB15 private targets reach epsilon 3.995481 and 1.995670 at
-\(\delta=8.147436\times10^{-6}\). Its target and shadow models follow the accepted Experiment 09
-configuration. All privacy-accounting inputs, warnings, target/shadow configurations, and completion
-gates are stored in the repository evidence.
+The main NSL-KDD conditions are non-private, target epsilon 4, and target epsilon 2, each evaluated
+at target seeds 42, 52, 62, 72, and 82. Seed-42 results are imported from the accepted budget sweep;
+the four remaining seeds are additional target fits. Epsilon about 8 remains single-seed context
+and is not pooled into this analysis. At \(\delta=1/88181=1.1340311\times10^{-5}\), actual epsilons
+are 3.998267 and 1.999038, with noise multipliers 0.6817627 and 0.8813477. The private target
+sample rate is \(1/345\), with 345 scheduled updates per epoch and 10,350 over 30 epochs.
+
+For UNSW-NB15, \(\delta=1/122738=8.147436\times10^{-6}\). Actual epsilons are 3.995481 and
+1.995670, with noise multipliers 0.6497192 and 0.8190918. The private target sample rate is
+\(1/480\), giving 14,400 scheduled updates. Poisson batch sizes fluctuate, so 256 is a nominal
+loader setting, not a fixed private batch size. Private shadows match their condition's target
+epsilon and fixed delta, using their own sample rates and noise multipliers.
+
+The reported budgets apply per trained model to optimization conditional on the fixed
+preprocessor and training configuration. They do not cover the data-dependent preprocessing,
+the complete model-selection workflow, or the joint release of all trained models. Validation
+records do not receive a training-membership guarantee from this accountant. The experiment
+uses `secure_mode=False` and does not claim production-strength cryptographic randomness.
 
 ### 3.4 IDS operating-point evaluation
 
-For each trained target, candidate thresholds are evaluated only on target-validation. The chosen
-threshold maximizes F2, weighting Recall more heavily than precision. The selected threshold is then
-applied once to the external test partition. We report Recall, FNR, F1, FPR, precision, and average
-precision (PR-AUC). Average precision is threshold-independent and helps distinguish a change in
-ranking quality from a change caused by the chosen operating threshold. Default-threshold results
-are retained as a diagnostic, particularly for UNSW-NB15.
+For each target, validation F2 is computed at thresholds 0.01 through 0.99 in steps of 0.01,
+predicting Attack when the model probability is at least the threshold. F2 is
+\(5PR/(4P+R)\), where \(P\) is precision and \(R\) is Recall. The highest F2 is selected,
+with higher Recall as the next sorting criterion. The NSL-KDD implementation has no explicit
+third tie-break; UNSW-NB15 explicitly chooses the lower threshold if both F2 and Recall tie.
+The selected threshold is then applied to the fixed utility test partition, without test-based
+retuning. Default-threshold (0.5) results are retained as diagnostics.
+
+Recall is \(TP/(TP+FN)\), FNR is \(FN/(TP+FN)\), and FPR is \(FP/(FP+TN)\).
+We also report precision, F1, and average precision (AP). The repository column `pr_auc` is
+calculated with `average_precision_score`; it is AP, not trapezoidal area under the
+precision–recall curve. AP is independent of the chosen decision threshold and complements
+the operating-point metrics.
 
 ### 3.5 Membership-inference protocol
 
-Five condition-matched shadow models are trained for each target condition. Shadows 101, 202,
-303, and 404 create the attacker-training data; shadow 505 is reserved for attack calibration. No
-target output is used to select an attacker, fit its parameters, or calibrate its operating threshold.
-Private shadows target the same epsilon and delta as the corresponding target while deriving a
-shadow-specific noise multiplier.
+**Shadow construction and calibration.** Each condition has five shadows, with seeds 101, 202,
+303, 404, and 505. Each seed independently splits the same shadow pool 50:50 into members and
+non-members, stratified by binary label and attack family. Outputs from the first four shadows
+train the learned attackers; outputs from shadow 505 calibrate operating thresholds. This is a
+held-out shadow model, not a disjoint set of underlying traffic records: records recur across
+shadow splits. The shadow pool remains disjoint from target training and target validation.
+Shadows also train on fewer members than the target, which limits how closely their output
+distributions can match those of the target.
 
-The target evaluation population is identical across conditions: 12,597 sampled members from
-target-train and all 12,597 target-validation non-members. The score-only threat model observes the
-predicted attack probability; its frozen primary attacker is logistic regression. The label-aware
-audit also knows the true binary label and can derive per-record loss; its frozen primary attacker is
-a loss threshold. Predeclared threshold, logistic-regression, and random-forest attackers provide
-secondary sensitivity analysis. Target evaluation uses 25,194 balanced records per model.
+**Target population.** NSL-KDD uses the same 12,597 sampled target-training members and
+12,597 target-validation non-members for every condition and seed. Member/non-member counts
+are matched within Normal, DoS, Probe, and Rare groups. UNSW-NB15 similarly matches by attack
+family, using 17,534 members and 17,534 non-members. Thus these are balanced membership
+evaluations, not estimates under an assumed deployment membership prevalence. Validation
+records are non-members of parameter fitting, although they also select the IDS threshold.
+Attacks query raw probabilities, not the thresholded IDS decisions.
 
-MIA advantage is \(\max_t(\mathrm{TPR}(t)-\mathrm{FPR}(t))\). We additionally report ROC-AUC,
-balanced accuracy at the shadow-calibrated threshold, and TPR at FPR ceilings 0.01 and 0.05. The
-IDS threshold never transforms the raw probabilities supplied to an MIA.
+**Threat models and fixed primary attacks.** The score-only black-box attacker receives the
+predicted Attack probability. Its primary model is logistic regression on that single feature,
+preceded by standardization, with balanced class weights and at most 1,000 iterations. The
+label-aware audit additionally assumes the true binary class is known. Its primary membership
+score is negative cross-entropy loss: higher values indicate predicted membership. It therefore
+has more information than the score-only setting and is not presented as a score-only deployed-service
+attack. Loss uses the probability assigned to the true class, clipped in code to
+\([10^{-12},1-10^{-12}]\) before taking its logarithm.
+
+For each attack, its operating threshold maximizes balanced accuracy on shadow 505 over the
+unique values of 400 score quantiles from 0.001 to 0.999. The first maximizing candidate is
+retained. No target score or membership label is used for attacker fitting, attack selection,
+score-direction selection, or operating-threshold calibration. The condition-specific attackers
+from the accepted NSL-KDD sweep are frozen across all five target seeds; five new shadows are
+not trained for each target seed.
+
+NSL-KDD secondary analysis chooses the highest shadow-calibration AUC within each condition
+and threat model, with the original candidate order breaking ties. Candidates are a confidence
+threshold, logistic regression, and random forest for score-only access, and a loss threshold,
+logistic regression, and random forest for the label-aware audit. Learned score-only models use
+Attack probability; learned label-aware models use loss and correctness at IDS threshold 0.5.
+Random forests use 300 trees and minimum leaf size 5. These secondary selections are frozen
+before the repeated-target analysis; UNSW-NB15 uses only the two fixed primary attack families.
+This protocol is not described as a preregistered confirmatory study.
+
+**Metrics.** We report MIA ROC-AUC, empirical advantage
+\(\max_t[\mathrm{TPR}(t)-\mathrm{FPR}(t)]\), and balanced accuracy at the shadow-calibrated
+operating threshold. Low-FPR TPR is the maximum TPR at an observed target ROC point whose
+FPR is at most 0.01 or 0.05, without interpolation or randomized tie-breaking. Advantage and
+low-FPR TPR are retrospective ROC summaries using target membership labels for evaluation;
+their maximizing thresholds are not deployed or fed back into calibration. They should not be
+confused with independently calibrated operating performance. Score ties can restrict the
+attainable ROC points, including zero TPR under a low-FPR ceiling.
 
 ### 3.6 Statistical analysis
 
-For NSL-KDD, condition summaries are means and standard deviations across the five target-training
-seeds. Two-sided t intervals use the target seed as the uncertainty unit (four degrees of freedom).
-DP-minus-non-private differences are paired by seed. MIA bootstraps use 1,000 replicates on
-identical target records where declared. These intervals are conditional on the frozen dataset,
-split, architecture, hyperparameters, and attackers. They do not represent uncertainty over all
-possible datasets, architectures, or adversaries.
+The primary NSL-KDD uncertainty unit is the target-training seed. Condition means and sample
+standard deviations use five seeds. Two-sided 95% t intervals use four degrees of freedom;
+DP-minus-non-private differences are computed within matched seeds before summarization.
+These intervals condition on the fixed records, split, preprocessing, hyperparameters, and
+attackers. They exclude record-resampling and shadow-retraining variation. The budget sweep
+informed the repeated settings, and seed 42 is reused, so this is not independent confirmation
+of a selected optimal budget.
 
-For UNSW-NB15, 95% bootstrap intervals quantify record-sampling uncertainty for one trained target.
-They do not capture target-training-seed variation. We therefore do not test cross-dataset equality
-or pool the two datasets.
+The earlier single-seed NSL-KDD sweep uses 1,000 ordinary record-bootstrap replicates for MIA
+AUC and advantage; comparisons resample identical record indices in both conditions. The
+supplementary UNSW-NB15 study uses 1,000 membership-stratified bootstrap replicates, also
+paired by record for differences. Both use the 2.5th and 97.5th percentiles. These record-level
+intervals condition on fitted models and attackers and do not estimate training-seed variation.
+We neither pool datasets nor treat record-bootstrap replicates as independent training runs.
+
+Intervals are unadjusted across metrics, budgets, and attacks. Exploratory differences must be
+interpreted with that multiplicity in mind. The exported t intervals are not truncated at zero
+or one; boundary-crossing intervals for low-FPR rates indicate the limitations of this approximation.
+An interval crossing zero does not establish equivalence or non-inferiority. No equivalence
+margin or operationally acceptable false-alarm budget was prespecified.
 
 ## 4. Results
 
 ### 4.1 NSL-KDD utility
 
+<!-- evidence:nsl-utility:start -->
 | Condition | Actual epsilon | Recall | FNR | F1 | FPR | Average precision |
-|---|---:|---:|---:|---:|---:|---:|
+| --- | --- | --- | --- | --- | --- | --- |
 | Non-private | — | 0.7093 ± 0.0222 | 0.2907 ± 0.0222 | 0.8097 ± 0.0161 | 0.0561 ± 0.0227 | 0.9375 ± 0.0079 |
-| DP-SGD epsilon about 4 | 3.9983 | 0.7134 ± 0.0138 | 0.2866 ± 0.0138 | 0.8017 ± 0.0082 | 0.0876 ± 0.0042 | 0.8907 ± 0.0063 |
-| DP-SGD epsilon about 2 | 1.9990 | 0.7011 ± 0.0116 | 0.2989 ± 0.0116 | 0.7946 ± 0.0074 | 0.0838 ± 0.0015 | 0.8906 ± 0.0063 |
+| DP epsilon about 4 | 3.9983 | 0.7134 ± 0.0138 | 0.2866 ± 0.0138 | 0.8017 ± 0.0082 | 0.0876 ± 0.0042 | 0.8907 ± 0.0063 |
+| DP epsilon about 2 | 1.9990 | 0.7011 ± 0.0116 | 0.2989 ± 0.0116 | 0.7946 ± 0.0074 | 0.0838 ± 0.0015 | 0.8906 ± 0.0063 |
+<!-- evidence:nsl-utility:end -->
 
 Values are mean ± standard deviation over five target seeds at validation-selected thresholds.
 
@@ -267,16 +342,41 @@ Recall optimum, and both produce a worse false-alarm/ranking profile under this 
 
 ![NSL-KDD false-positive rate and average precision](../results/final_analysis/figures/10_false_alarms_and_average_precision.png)
 
-*Figure 1. Validation-selected F2 operating points over five NSL-KDD target seeds. Additional
-false-positive and average-precision diagnostics prevent selection by Recall alone.*
+*Figure 1. Validation-selected F2 operating points over five NSL-KDD target seeds. The epsilon-about-8
+marker is single-seed context without an interval. False-positive and average-precision diagnostics
+prevent selection by Recall alone.*
 
 ### 4.2 NSL-KDD membership inference
 
-| Condition | Score-only AUC | Label-aware AUC | Score-only advantage | Label-aware advantage |
-|---|---:|---:|---:|---:|
-| Non-private | 0.50230 | 0.50088 | 0.00941 | 0.00786 |
-| DP-SGD epsilon about 4 | 0.50301 | 0.50159 | 0.01107 | 0.01097 |
-| DP-SGD epsilon about 2 | 0.50327 | 0.50146 | 0.01145 | 0.01130 |
+<!-- evidence:nsl-mia:start -->
+| Condition | Threat model | AUC [95% CI] | Advantage [95% CI] |
+| --- | --- | --- | --- |
+| Non-private | Score-only | 0.50230 [0.50031, 0.50428] | 0.00941 [0.00633, 0.01250] |
+| Non-private | Label-aware | 0.50088 [0.49929, 0.50247] | 0.00786 [0.00444, 0.01128] |
+| DP epsilon about 4 | Score-only | 0.50301 [0.50273, 0.50328] | 0.01107 [0.00959, 0.01254] |
+| DP epsilon about 4 | Label-aware | 0.50159 [0.50103, 0.50216] | 0.01097 [0.00985, 0.01210] |
+| DP epsilon about 2 | Score-only | 0.50327 [0.50293, 0.50361] | 0.01145 [0.01048, 0.01241] |
+| DP epsilon about 2 | Label-aware | 0.50146 [0.50071, 0.50221] | 0.01130 [0.01041, 0.01220] |
+<!-- evidence:nsl-mia:end -->
+
+AUC and advantage entries are five-seed means with unadjusted 95% t intervals. The following
+operating metrics are five-seed means; balanced accuracy uses shadow-calibrated thresholds,
+whereas low-FPR TPR uses the retrospective ROC definition in Section 3.5.
+
+<!-- evidence:nsl-low-fpr:start -->
+| Condition | Threat model | Balanced accuracy | TPR at 1% FPR | TPR at 5% FPR |
+| --- | --- | --- | --- | --- |
+| Non-private | Score-only | 0.500397 | 0.000286 | 0.005509 |
+| Non-private | Label-aware | 0.501016 | 0.000000 | 0.000000 |
+| DP epsilon about 4 | Score-only | 0.500929 | 0.000000 | 0.000000 |
+| DP epsilon about 4 | Label-aware | 0.501445 | 0.000000 | 0.000000 |
+| DP epsilon about 2 | Score-only | 0.501262 | 0.000000 | 0.000000 |
+| DP epsilon about 2 | Label-aware | 0.500881 | 0.000000 | 0.000000 |
+<!-- evidence:nsl-low-fpr:end -->
+
+Zero low-FPR TPR means that the evaluated score ordering and its available ROC points did not
+identify members within that false-positive ceiling. It is not a privacy guarantee. Complete
+per-seed results and uncertainty summaries remain in the repository.
 
 All values are close to chance in magnitude. Some conditional across-seed AUC intervals exclude
 0.5 by a few thousandths, so it would be inaccurate to say that every NSL-KDD interval contains
@@ -284,7 +384,7 @@ chance. The more relevant leakage-reduction question is paired. For epsilon abou
 differences are +0.00071 [-0.00111, 0.00254] score-only and +0.00071
 [-0.00094, 0.00236] label-aware. For epsilon about 2, they are +0.00097
 [-0.00076, 0.00270] and +0.00058 [-0.00126, 0.00242]. All primary and secondary paired AUC
-intervals cross zero. No tested private condition shows a measurable AUC reduction.
+intervals cross zero. The paired AUC comparisons do not establish a reduction for either tested private condition.
 
 The secondary epsilon-about-2 label-aware advantage increases by 0.00345
 [0.00068, 0.00621]. This is a small exploratory result from a secondary attacker and does not show
@@ -293,16 +393,18 @@ reduction.
 
 ![NSL-KDD MIA AUC](../results/final_analysis/figures/04_mia_auc_vs_epsilon.png)
 
-*Figure 2. Fixed primary attacks with conditional five-seed t intervals. Near-chance magnitude is
-not proof that leakage is absent.*
+*Figure 2. Fixed primary attacks with conditional five-seed t intervals. The epsilon-about-8 marker
+is single-seed context without an interval. Near-chance magnitude is not proof that leakage is absent.*
 
 ### 4.3 Supplementary UNSW-NB15 check
 
+<!-- evidence:unsw-utility:start -->
 | Condition | Actual epsilon | Threshold | Recall | F1 | FPR | Average precision |
-|---|---:|---:|---:|---:|---:|---:|
+| --- | --- | --- | --- | --- | --- | --- |
 | Non-private | — | 0.24 | 0.998831 | 0.853572 | 0.418432 | 0.981609 |
-| DP-SGD epsilon about 4 | 3.995481 | 0.02 | 0.999846 | 0.852478 | 0.423784 | 0.968490 |
-| DP-SGD epsilon about 2 | 1.995670 | 0.02 | 0.999890 | 0.852436 | 0.424000 | 0.967663 |
+| DP epsilon about 4 | 3.995481 | 0.02 | 0.999846 | 0.852478 | 0.423784 | 0.968490 |
+| DP epsilon about 2 | 1.995670 | 0.02 | 0.999890 | 0.852436 | 0.424000 | 0.967663 |
+<!-- evidence:unsw-utility:end -->
 
 At the selected F2 operating point, both private models retain F1 within 0.0012 of non-private and
 slightly increase Recall. They also increase FPR by about 0.0054–0.0056 and reduce average
@@ -356,8 +458,8 @@ No tested epsilon is a universal optimum. Epsilon about 4 provides the highest m
 Recall, but the paired interval includes both benefit and harm; its higher FPR and lower average
 precision are clearer. Epsilon about 2 gives a tighter formal bound but slightly lower mean F1 and
 does not improve measured MIA. A deployment decision would need an explicit privacy valuation and
-a false-alarm cost, neither of which the benchmark datasets provide. We therefore present a tested
-frontier rather than naming a winner.
+a false-alarm cost, neither of which the benchmark datasets provide. We therefore present descriptive tradeoffs among the tested conditions rather than an
+established optimal frontier.
 
 ### 5.3 Implications for empirical privacy evaluation
 
@@ -381,9 +483,9 @@ cost, then validate under temporal and site shift.
 
 ## 6. Limitations and threats to validity
 
-1. **Formal scope.** DP covers optimization conditional on fixed preprocessing. Categorical
-   vocabularies, scaling statistics, architecture, hyperparameters, and data selection are outside the
-   stated guarantee.
+1. **Formal scope.** Budgets describe individual optimization runs conditional on fixed preprocessing.
+   Data-dependent preprocessing, hyperparameter and model selection, validation-data protection, and
+   composition across releases of multiple trained models are outside the stated guarantee.
 2. **Research randomness.** `secure_mode=False` is recorded. The implementation is suitable for
    experimental comparison, not a production cryptographic claim.
 3. **Attack coverage.** The primary attacks are score-only logistic regression and a label-aware
@@ -401,10 +503,17 @@ cost, then validate under temporal and site shift.
    or other DP mechanisms.
 8. **Operating policy.** F2 thresholding emphasizes Recall. Different costs or alert budgets could
    reorder the practical preference among models.
-9. **Conditional inference.** Five-seed t intervals are based on a small number of seeds and one
-   locked split. Subgroup and epsilon-about-8 findings are exploratory/single-seed context.
+9. **Conditional inference.** Five-seed t intervals use one split and fixed attackers, omit shadow-retraining
+   and record-sampling variation, and are unadjusted for multiple comparisons. Seed 42 is reused from
+   the budget sweep. Subgroup and epsilon-about-8 findings remain exploratory/single-seed context.
 10. **No adversarial-evasion evaluation.** DP and adversarial robustness can interact, but the
     present experiments do not test protocol-valid evasion or poisoning.
+11. **Shadow transfer and attack capacity.** The calibration shadow is held out by model, not by traffic
+    record. All shadows reuse one pool and train on fewer members than targets. Logistic regression
+    on one probability has limited attack capacity. Near-chance results cannot establish that a
+    stronger or better-matched attacker would fail.
+12. **Training comparison.** Private training changes sampling and clips gradients as well as adding
+    noise. The utility differences cannot be attributed to Gaussian noise alone.
 
 ## 7. Reproducibility and ethics
 
@@ -432,8 +541,43 @@ while the tested MIAs reveal no measurable improvement over an already near-chan
 Privacy budgets should not be chosen from Recall alone, and empirical attack failure should not be
 confused with privacy certification.
 
+## Appendix A. Supplementary UNSW-NB15 attack metrics
+
+These entries complement the AUC results in Section 4.3. Advantage intervals are 95% percentile
+bootstrap intervals conditional on the fitted target and attacker; balanced accuracy uses the
+shadow-calibrated threshold. All rates are proportions. A positive lower interval for maximized
+empirical advantage does not by itself establish leakage: maximization can yield a positive value
+on finite samples even near chance, and these intervals are not a null-calibrated hypothesis test.
+
+<!-- evidence:unsw-advantage:start -->
+| Condition | Threat model | Advantage [95% CI] | Balanced accuracy |
+| --- | --- | --- | --- |
+| Non-private | Score-only | 0.006559 [0.001710, 0.017339] | 0.500713 |
+| Non-private | Label-aware | 0.013346 [0.006730, 0.024243] | 0.501911 |
+| DP epsilon about 4 | Score-only | 0.009182 [0.003706, 0.019679] | 0.499857 |
+| DP epsilon about 4 | Label-aware | 0.009353 [0.005301, 0.021217] | 0.502538 |
+| DP epsilon about 2 | Score-only | 0.000000 [0.000000, 0.000000] | 0.500000 |
+| DP epsilon about 2 | Label-aware | 0.009068 [0.005133, 0.020707] | 0.502766 |
+<!-- evidence:unsw-advantage:end -->
+
+<!-- evidence:unsw-low-fpr:start -->
+| Condition | Threat model | TPR at 1% FPR | TPR at 5% FPR |
+| --- | --- | --- | --- |
+| Non-private | Score-only | 0.008327 | 0.048249 |
+| Non-private | Label-aware | 0.008327 | 0.048249 |
+| DP epsilon about 4 | Score-only | 0.007300 | 0.043744 |
+| DP epsilon about 4 | Label-aware | 0.007756 | 0.047108 |
+| DP epsilon about 2 | Score-only | 0.000000 | 0.000000 |
+| DP epsilon about 2 | Label-aware | 0.008384 | 0.043858 |
+<!-- evidence:unsw-low-fpr:end -->
+
+The constant-score epsilon-about-2 score-only attacker yields zero advantage and zero low-FPR
+TPR under the deterministic ROC convention. This degeneracy limits that audit rather than
+establishing that the target cannot leak membership.
+
 ## References
 
 Citation keys correspond to `references.bib`. The LaTeX version renders the bibliography
 automatically. Before submission, export publisher BibTeX for a final metadata comparison and
 adapt the manuscript to the selected venue’s citation style.
+
