@@ -94,11 +94,18 @@ does not establish a general leakage reduction or an optimal epsilon.
 
 ## Next gate — author and venue review
 
-1. Confirm authors, affiliations, contributions, acknowledgements, and conflicts.
+The 2026-10-27 methods/evidence revision is recorded in
+[the manuscript review](paper/manuscript_review_2026-10-27.md). It documents notebook-to-text
+corrections, fixed-attacker and shadow-pool limitations, and outstanding submission checks.
+The accepted experiments and their scope remain unchanged.
+
+1. Confirm affiliation, contributions, acknowledgements, and conflicts for sole author Kazi Md. Tawsif Rahman.
 2. Select the target venue and apply its page limit, template, anonymization, and bibliography rules.
-3. Obtain supervisor/coauthor review of the contribution statement and bounded claim language.
+3. Obtain independent scientific feedback on the contribution and bounded claims where possible;
+   a supervisor or coauthor is not required for this independently conducted study.
 4. Perform one final publisher-metadata check and a venue-specific literature search before submission.
 5. Polish prose, accessibility, figure sizing, and the reproducibility/data-availability statement.
+6. Resolve the explicit adjacency/accountant wording and justify the recorded delta choices.
 
 Do not add a new privacy-budget sweep, architecture search, attack selection, or broad
 multi-dataset replication unless author, supervisor, or peer review identifies a specific blocking need.
@@ -106,3 +113,4 @@ multi-dataset replication unless author, supervisor, or peer review identifies a
 ## Scope restrictions
 
 Do not add federated learning, extra primary datasets, transformers, adversarial evasion, new privacy mechanisms, or broad model comparisons to the current study.
+
